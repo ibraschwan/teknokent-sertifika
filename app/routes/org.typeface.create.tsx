@@ -25,7 +25,7 @@ import {
 
 import { requireSuperAdmin } from "~/lib/auth.server";
 import { prisma, throwErrorResponse } from "~/lib/prisma.server";
-import { saveTypefaceUpload } from "~/lib/typeface.server";
+import { isAcceptedFontUpload, saveTypefaceUpload } from "~/lib/typeface.server";
 
 export async function action({ request }: Route.ActionArgs) {
   await requireSuperAdmin(request);
@@ -33,7 +33,7 @@ export async function action({ request }: Route.ActionArgs) {
   let typeface: Typeface | void = undefined;
 
   const uploadHandler = async (fileUpload: FileUpload) => {
-    if (fileUpload.fieldName === "ttf" && fileUpload.type === "font/ttf") {
+    if (fileUpload.fieldName === "ttf" && isAcceptedFontUpload(fileUpload)) {
       typeface = await prisma.typeface
         .create({
           data: {
@@ -68,7 +68,7 @@ export async function action({ request }: Route.ActionArgs) {
   if (!typefaceTTF || typeface === undefined) {
     throw new Response(null, {
       status: 400,
-      statusText: "Missing uploaded TTF file",
+      statusText: "Yüklenen yazı tipi dosyası bulunamadı",
     });
   }
 
@@ -125,12 +125,12 @@ export default function CreateTypefaceDialog() {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <Label htmlFor="ttf">Bir TTF dosyası seç</Label>
+            <Label htmlFor="ttf">Bir TTF veya OTF dosyası seç</Label>
             <Input
               id="ttf"
               name="ttf"
               type="file"
-              accept="font/ttf"
+              accept=".ttf,.otf,font/ttf,font/otf"
               onChange={(e) => {
                 if (e.target.files && e.target.files[0]) {
                   let filename = e.target.files[0].name;

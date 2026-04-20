@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	bash \
 	openssl \
 	ca-certificates \
+	fonts-dejavu-core \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Install all node_modules, including dev dependencies
@@ -57,5 +58,9 @@ COPY --from=build /app-certificates/tsconfig.json /app-certificates/tsconfig.jso
 COPY --from=build /app-certificates/app/generated /app-certificates/app/generated
 
 RUN npx prisma generate
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 EXPOSE 3000
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
+CMD ["/docker-entrypoint.sh"]
