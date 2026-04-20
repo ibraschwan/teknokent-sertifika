@@ -17,7 +17,7 @@ import {
 } from "@remix-run/fs";
 
 import { domain } from "./config.server";
-import { mailjetSend } from "./email.server";
+import { sendEmail } from "./email.server";
 import { ensureFolderExists, readFileIfExists } from "./fs.server";
 import { prisma, throwErrorResponse } from "./prisma.server";
 import { getOrg } from "./organisation.server";
@@ -135,28 +135,15 @@ export const sendVerificationEmail = async (user: User) => {
   const verificationUrl = `${domain}/user/verify/${user.id}/${user.verifyCode}`;
 
   // @todo dynamic org name (from settings?)
-  await mailjetSend({
-    Messages: [
-      {
-        From: {
-          Email: org.senderEmail ?? "email-not-configured@example.com",
-          Name: org.senderName ?? "Please configure in organisation settings",
-        },
-        To: [
-          {
-            Email: user.email,
-            Name: `${user.firstName} ${user.lastName}`,
-          },
-        ],
-        Subject: `Please verify your email`,
-        TextPart: `Dear ${user.firstName} ${user.lastName},\n\nTo complete your sign up for ${org.name} Certificates, please click on the following link:\n${verificationUrl}\n\nIf you haven't signed up yourself, please ignore or report this email.\n\nThank you!`,
-        HTMLPart: `<p>Dear ${user.firstName} ${user.lastName},</p><p>To complete your sign up for ${org.name} Certificates, please click on the following link:<br /><a href="${verificationUrl}">${verificationUrl}</a></p><p>If you haven't signed up yourself, please ignore or report this email.</p><p>Thank you!</p>`,
-      },
-    ],
+  await sendEmail({
+    from: `${org.senderName ?? "Please configure in organisation settings"} <${org.senderEmail ?? "email-not-configured@example.com"}>`,
+    to: user.email,
+    subject: `Please verify your email`,
+    text: `Dear ${user.firstName} ${user.lastName},\n\nTo complete your sign up for ${org.name} Certificates, please click on the following link:\n${verificationUrl}\n\nIf you haven't signed up yourself, please ignore or report this email.\n\nThank you!`,
+    html: `<p>Dear ${user.firstName} ${user.lastName},</p><p>To complete your sign up for ${org.name} Certificates, please click on the following link:<br /><a href="${verificationUrl}">${verificationUrl}</a></p><p>If you haven't signed up yourself, please ignore or report this email.</p><p>Thank you!</p>`,
   }).catch((error) => {
     throw new Response(error.message, {
       status: 500,
-      statusText: error.statusCode,
     });
   });
 
@@ -186,28 +173,15 @@ export const sendInvitationEmail = async (
     org.name
   } certificates tool.</p><p>To accept the invitation, please click on the following link:<br /><a href="${acceptUrl}">${acceptUrl}</a></p><p>Thank you!</p>`;
 
-  await mailjetSend({
-    Messages: [
-      {
-        From: {
-          Email: org.senderEmail ?? "email-not-configured@example.com",
-          Name: org.senderName ?? "Please configure in organisation settings",
-        },
-        To: [
-          {
-            Email: invite.email,
-            Name: `${invite.firstName} ${invite.lastName}`,
-          },
-        ],
-        Subject: `You have been invited to ${org.name} Certificates`,
-        TextPart: text,
-        HTMLPart: html,
-      },
-    ],
+  await sendEmail({
+    from: `${org.senderName ?? "Please configure in organisation settings"} <${org.senderEmail ?? "email-not-configured@example.com"}>`,
+    to: invite.email,
+    subject: `You have been invited to ${org.name} Certificates`,
+    text,
+    html,
   }).catch((error) => {
     throw new Response(error.message, {
       status: 500,
-      statusText: error.statusCode,
     });
   });
 

@@ -55,7 +55,7 @@ export async function action({ request, params }: Route.ActionArgs) {
   // @todo verify schema of incoming JSON
   try {
     layoutJSON = JSON.parse(inputs.layout);
-  } catch (error) {
+  } catch {
     throw new Response(null, {
       status: 400,
       statusText: "Invalid JSON layout",
@@ -65,7 +65,7 @@ export async function action({ request, params }: Route.ActionArgs) {
   // @todo verify schema of incoming JSON
   try {
     qrJSON = JSON.parse(inputs.qrcode);
-  } catch (error) {
+  } catch {
     throw new Response(null, {
       status: 400,
       statusText: "Invalid JSON layout",
@@ -139,7 +139,7 @@ export default function TemplateEditorPage({
 
   const clipboardCopy = async () => {
     const fullLayout = {
-      mime: "x-certiffy/template-layout",
+      mime: "x-teknokent/template-layout",
       layout,
       qrcode,
     };
@@ -164,7 +164,7 @@ export default function TemplateEditorPage({
     }
     if (
       decoded &&
-      decoded.mime === "x-certiffy/template-layout" &&
+      decoded.mime === "x-teknokent/template-layout" &&
       updatedLayout &&
       updatedQR
     ) {
@@ -182,10 +182,12 @@ export default function TemplateEditorPage({
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLayout(template.layout);
   }, [template.id, template.layout]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setQrcode(template.qrcode);
   }, [template.id, template.qrcode]);
 

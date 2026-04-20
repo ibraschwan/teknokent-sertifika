@@ -1,17 +1,40 @@
-import Mailjet, {
-	type SendEmailV3_1,
-	type LibraryResponse,
-} from "node-mailjet";
+import { Resend } from "resend";
 
-const mailjet = new Mailjet({
-	apiKey: process.env.MJ_APIKEY_PUBLIC,
-	apiSecret: process.env.MJ_APIKEY_PRIVATE,
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-async function mailjetSend(
-	mailConfig: SendEmailV3_1.Body,
-): Promise<LibraryResponse<SendEmailV3_1.Response>> {
-	return mailjet.post("send", { version: "v3.1" }).request(mailConfig);
+interface Attachment {
+	filename: string;
+	content: Buffer;
+	contentType?: string;
 }
 
-export { mailjetSend };
+interface SendEmailOptions {
+	from: string;
+	to: string;
+	subject: string;
+	text?: string;
+	html?: string;
+	attachments?: Attachment[];
+	tags?: { name: string; value: string }[];
+}
+
+async function sendEmail(options: SendEmailOptions) {
+	const { data, error } = await resend.emails.send({
+		from: options.from,
+		to: options.to,
+		subject: options.subject,
+		html: options.html ?? "",
+		text: options.text,
+		attachments: options.attachments,
+		tags: options.tags,
+	});
+
+	if (error) {
+		throw new Error(error.message);
+	}
+
+	return data!;
+}
+
+export { sendEmail };
+export type { Attachment, SendEmailOptions };

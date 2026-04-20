@@ -8,16 +8,15 @@ const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  // Sample data for Certiffy
   const org = await prisma.organisation.upsert({
     where: { id: 1 },
     update: {},
     create: {
-      name: "Your Certiffy Organisation",
-      imprintUrl: "https://www.certiffy.eu/imprint",
-      privacyUrl: "https://www.certiffy.eu/privacy",
-      senderEmail: "notifications@certiffy.eu",
-      senderName: "Certiffy"
+      name: "ODTÜ Teknokent",
+      imprintUrl: "https://www.metustars.com/imprint",
+      privacyUrl: "https://www.metustars.com/privacy",
+      senderEmail: "notifications@metustars.com",
+      senderName: "ODTÜ Teknokent"
     },
   });
   console.log("Organisation:", org);
@@ -58,12 +57,12 @@ async function main() {
     where: { id: 1 },
     update: {},
     create: {
-      name: "Your Certiffy Program",
+      name: "Sample Program",
       about:
         "Add a short and sweet description about your program. You can use Markdown syntax for adding **emphasis**.",
       achievement:
         "Describe the achievement you are certifying in 1-2 sentences.",
-      website: "https://certiffy.eu",
+      website: "https://metustars.com",
     },
   });
 

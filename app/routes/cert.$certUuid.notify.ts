@@ -4,7 +4,7 @@ import slug from "slug";
 
 import { requireAdmin } from "~/lib/auth.server";
 import { domain } from "~/lib/config.server";
-import { mailjetSend } from "~/lib/email.server";
+import { sendEmail, type Attachment } from "~/lib/email.server";
 import { getOrg } from "~/lib/organisation.server";
 import { generateCertificate } from "~/lib/pdf.server";
 import { prisma } from "~/lib/prisma.server";
@@ -56,18 +56,15 @@ export async function action({ request, params }: Route.ActionArgs) {
     true,
   );
 
-  const attachments = [];
+  const attachments: Attachment[] = [];
 
-  let pdfBase64;
   if (pdf) {
-    pdfBase64 = pdf.toString("base64");
     attachments.push({
-      ContentType: "application/pdf",
-      Filename:
+      filename:
         slug(`${certificate.firstName} ${certificate.lastName}`) +
         ".certificate.pdf",
-      ContentID: "certpreview",
-      Base64Content: pdfBase64,
+      content: pdf,
+      contentType: "application/pdf",
     });
   }
 
@@ -92,33 +89,17 @@ export async function action({ request, params }: Route.ActionArgs) {
     : `<p>Dear ${certificate.firstName},</p><p>Your certificate for ${certificate.batch.program.name} – ${certificate.batch.name} is ready and the document attached to this email.</p><p>All the best!</p>`;
 
   // @todo sender email, domain and links need to be configurable
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const response: any = await mailjetSend({
-    // SandboxMode: true,
-    Messages: [
-      {
-        // @ts-expect-error CustomId is missing from the Message type
-        CustomId: certificate.uuid,
-        From: {
-          Email: org.senderEmail ?? "email-not-configured@example.com",
-          Name: org.senderName ?? "Please configure in organisation settings",
-        },
-        To: [
-          {
-            Email: certificate.email,
-            Name: `${certificate.firstName} ${certificate.lastName}`,
-          },
-        ],
-        Subject: `Your certificate from ${certificate.batch.program.name} is ready`,
-        TextPart: mailText,
-        HTMLPart: mailHTML,
-        Attachments: attachments,
-      },
-    ],
+  const response = await sendEmail({
+    from: `${org.senderName ?? "Please configure in organisation settings"} <${org.senderEmail ?? "email-not-configured@example.com"}>`,
+    to: certificate.email,
+    subject: `Your certificate from ${certificate.batch.program.name} is ready`,
+    text: mailText,
+    html: mailHTML,
+    attachments,
+    tags: [{ name: "certificateUuid", value: certificate.uuid }],
   }).catch((error) => {
     throw new Response(error.message, {
       status: 500,
-      statusText: error.statusCode,
     });
   });
 
@@ -128,11 +109,11 @@ export async function action({ request, params }: Route.ActionArgs) {
     },
     data: {
       notifiedAt: new Date(),
-      mjResponse: response.body.Messages?.[0],
+      mjResponse: response,
     },
   });
 
-  return response.body;
+  return response;
 }
 
 export async function loader() {

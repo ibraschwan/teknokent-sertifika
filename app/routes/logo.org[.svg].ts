@@ -1,18 +1,24 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { prisma } from "~/lib/prisma.server";
 import { readOrganisationLogo } from "~/lib/organisation.server";
 
+async function serveDefaultLogo() {
+	const defaultPath = join(process.cwd(), "public", "logo", "default.png");
+	const buffer = await readFile(defaultPath);
+	return new Response(new Uint8Array(buffer), {
+		status: 200,
+		headers: { "Content-Type": "image/png" },
+	});
+}
+
 export async function loader() {
 	const logo = await prisma.organisationLogo.findUnique({
-		where: {
-			id: 1,
-		},
+		where: { id: 1 },
 	});
 
 	if (!logo) {
-		throw new Response(null, {
-			status: 404,
-			statusText: "Not Found",
-		});
+		return serveDefaultLogo();
 	}
 
 	const logoBuffer = await readOrganisationLogo(logo);
@@ -20,14 +26,9 @@ export async function loader() {
 	if (logoBuffer) {
 		return new Response(logoBuffer, {
 			status: 200,
-			headers: {
-				"Content-Type": logo.contentType,
-			},
-		});
-	} else {
-		throw new Response(null, {
-			status: 404,
-			statusText: "File not Found",
+			headers: { "Content-Type": logo.contentType },
 		});
 	}
+
+	return serveDefaultLogo();
 }

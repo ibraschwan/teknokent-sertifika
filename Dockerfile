@@ -52,6 +52,9 @@ COPY --from=build /app-certificates/public /app-certificates/public
 COPY --from=build /app-certificates/prisma /app-certificates/prisma
 COPY --from=build /app-certificates/package.json /app-certificates/package.json
 COPY --from=build /app-certificates/prisma.config.ts /app-certificates/prisma.config.ts
+COPY --from=build /app-certificates/tsconfig.json /app-certificates/tsconfig.json
+COPY --from=build /app-certificates/app/generated /app-certificates/app/generated
 
 RUN npx prisma generate
-CMD [ "npm", "run", "start" ]
+EXPOSE 3000
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
