@@ -1,15 +1,19 @@
 const locales = [
 	{
-		code: "en-US",
-		label: "English US",
+		code: "tr-TR",
+		label: "Türkçe",
 	},
 	{
-		code: "en-UK",
-		label: "English UK",
+		code: "en-US",
+		label: "English (US)",
+	},
+	{
+		code: "en-GB",
+		label: "English (UK)",
 	},
 	{
 		code: "de-DE",
-		label: "German",
+		label: "Deutsch",
 	},
 ];
 

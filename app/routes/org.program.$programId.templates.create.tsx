@@ -175,7 +175,7 @@ export default function CreateTemplateDialog() {
               onChange={(e) => setTemplateName(e.target.value)}
             />
             <Label htmlFor="locale">Date format</Label>
-            <Select name="locale" defaultValue="en-US">
+            <Select name="locale" defaultValue="tr-TR">
               <SelectTrigger>
                 <SelectValue placeholder="Select a date format" />
               </SelectTrigger>

@@ -209,7 +209,7 @@ export default function BatchCertificatesPage({
                         <MailCheck />
                       </TooltipTrigger>
                       <TooltipContent side="top">
-                        {cert.notifiedAt.toLocaleString("en-UK")}
+                        {cert.notifiedAt.toLocaleString("tr-TR")}
                       </TooltipContent>
                     </Tooltip>
                   ) : (

@@ -2,7 +2,7 @@ import type { CertificateView, CertificateViewBatch } from "./types";
 
 export function replaceVariables(
 	text: string,
-	locale: string = "de-DE",
+	locale: string = "tr-TR",
 	certificate: CertificateView,
 	batch: CertificateViewBatch,
 ) {

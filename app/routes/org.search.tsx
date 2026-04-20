@@ -156,7 +156,7 @@ export default function OrgSearchResults({ loaderData }: Route.ComponentProps) {
                         <MailCheck />
                       </TooltipTrigger>
                       <TooltipContent side="top">
-                        {cert.notifiedAt.toLocaleString("en-UK")}
+                        {cert.notifiedAt.toLocaleString("tr-TR")}
                       </TooltipContent>
                     </Tooltip>
                   ) : (
