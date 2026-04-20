@@ -38,6 +38,7 @@ import {
 
 import { LayoutEditor } from "~/components/template-layout-editor";
 import { LayoutQRCodeEditor } from "~/components/template-qrcode-editor";
+import { VisualLayoutEditor } from "~/components/template-visual-editor";
 import { useToast } from "~/hooks/use-toast";
 
 export function meta({ data }: Route.MetaArgs) {
@@ -133,6 +134,7 @@ export default function TemplateEditorPage({
   const navigation = useNavigation();
   const [layout, setLayout] = useState<PrismaJson.TextBlock[]>(template.layout);
   const [qrcode, setQrcode] = useState(template.qrcode);
+  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const [copySuccess, setCopySuccess] = useState(false);
   const [pasteSuccess, setPasteSuccess] = useState(false);
   const { toast } = useToast();
@@ -239,15 +241,20 @@ export default function TemplateEditorPage({
           }
         />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 sticky top-4">
         <Label className="flex grow h-10 justify-center items-center">
           Şablon Önizlemesi
         </Label>
 
-        <img
-          className="drop-shadow-xl self-center"
-          src={`preview.png?t=${template.updatedAt}`}
-          alt="Şablon önizlemesi"
+        <VisualLayoutEditor
+          layout={layout}
+          qrcode={qrcode}
+          onLayoutChange={setLayout}
+          onQrcodeChange={setQrcode}
+          selectedBlockId={selectedBlockId}
+          onSelectBlock={setSelectedBlockId}
+          previewUrl={`preview.png?t=${template.updatedAt}`}
+          previewKey={String(template.updatedAt)}
         />
       </div>
     </div>
