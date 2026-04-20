@@ -118,14 +118,14 @@ export default function CreateTypefaceDialog() {
       <DialogContent className="sm:max-w-[425px]">
         <Form method="POST" encType="multipart/form-data">
           <DialogHeader>
-            <DialogTitle>Add typeface</DialogTitle>
+            <DialogTitle>Yazı tipi ekle</DialogTitle>
             <DialogDescription>
-              Upload a new typeface that can be used for text rendering. The
-              font file needs to be in Truetype format (.ttf).
+              Metin görüntülemede kullanılabilecek yeni bir yazı tipi yükle.
+              Yazı tipi dosyası Truetype biçiminde (.ttf) olmalıdır.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <Label htmlFor="ttf">Select a TTF file</Label>
+            <Label htmlFor="ttf">Bir TTF dosyası seç</Label>
             <Input
               id="ttf"
               name="ttf"
@@ -141,37 +141,37 @@ export default function CreateTypefaceDialog() {
                 }
               }}
             />
-            <Label htmlFor="typefaceName">Typeface name</Label>
+            <Label htmlFor="typefaceName">Yazı tipi adı</Label>
             <Input
               id="typefaceName"
               name="typefaceName"
               value={typefaceName}
               onChange={(e) => setTypefaceName(e.target.value)}
             />
-            <Label htmlFor="weight">Weight</Label>
+            <Label htmlFor="weight">Kalınlık</Label>
             <Select name="weight" defaultValue="400">
               <SelectTrigger>
-                <SelectValue placeholder="Select weight" />
+                <SelectValue placeholder="Kalınlık seç" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="200">Light</SelectItem>
-                <SelectItem value="400">Regular</SelectItem>
-                <SelectItem value="700">Bold</SelectItem>
+                <SelectItem value="200">İnce</SelectItem>
+                <SelectItem value="400">Normal</SelectItem>
+                <SelectItem value="700">Kalın</SelectItem>
               </SelectContent>
             </Select>
-            <Label htmlFor="style">Style</Label>
+            <Label htmlFor="style">Stil</Label>
             <Select name="style" defaultValue="normal">
               <SelectTrigger>
-                <SelectValue placeholder="Select style" />
+                <SelectValue placeholder="Stil seç" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="normal">Normal</SelectItem>
-                <SelectItem value="italic">Italic</SelectItem>
+                <SelectItem value="italic">İtalik</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <DialogFooter>
-            <Button type="submit">Upload Typeface</Button>
+            <Button type="submit">Yazı Tipi Yükle</Button>
           </DialogFooter>
         </Form>
       </DialogContent>
@@ -185,5 +185,5 @@ export function ErrorBoundary() {
 
   // @todo improve user-facing error display
 
-  return <div>Error</div>;
+  return <div>Hata</div>;
 }

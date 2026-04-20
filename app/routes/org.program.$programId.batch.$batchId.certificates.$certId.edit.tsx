@@ -44,7 +44,7 @@ import { prisma, throwErrorResponse } from "~/lib/prisma.server";
 import { CertificateInputSchema as schema } from "~/lib/schemas";
 
 export function meta() {
-  return [{ title: "Edit Certificate" }];
+  return [{ title: "Sertifikayı Düzenle" }];
 }
 
 export async function action({ request, params }: Route.ActionArgs) {
@@ -86,7 +86,7 @@ export async function action({ request, params }: Route.ActionArgs) {
     })
     .catch((error) => {
       console.error(error);
-      throwErrorResponse(error, "Could not update certificate");
+      throwErrorResponse(error, "Sertifika güncellenemedi");
     });
 
   if (certificate) {
@@ -190,21 +190,21 @@ export default function EditCertificateDialog({
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Certificate settings</DialogTitle>
+          <DialogTitle>Sertifika ayarları</DialogTitle>
           <DialogDescription>
-            Change the certificate information as needed.
+            Sertifika bilgilerini gerektiği şekilde değiştir.
           </DialogDescription>
         </DialogHeader>
         <Form method="POST" className="grid gap-2 py-4" {...getFormProps(form)}>
           <div className="grid grid-cols-2 gap-2 mb-2">
             <FormField
               {...getInputProps(fields.firstName, { type: "text" })}
-              label="First name"
+              label="Ad"
               error={""}
             />
             <FormField
               {...getInputProps(fields.lastName, { type: "text" })}
-              label="Last name"
+              label="Soyad"
               error={fields.lastName.errors?.join(", ")}
             />
           </div>
@@ -217,21 +217,21 @@ export default function EditCertificateDialog({
 
           <FormField
             {...getInputProps(fields.email, { type: "email" })}
-            label="Email"
+            label="E-posta"
             error={fields.email.errors?.join(", ")}
           />
           <FormField
             {...getInputProps(fields.teamName, { type: "text" })}
-            label="Team"
+            label="Takım"
             error={fields.teamName.errors?.join(", ")}
           />
-          <Label htmlFor="templateId">Template</Label>
+          <Label htmlFor="templateId">Şablon</Label>
           <Select
             {...getSelectProps(fields.templateId)}
             defaultValue={certificate.templateId.toString()}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select a template" />
+              <SelectValue placeholder="Bir şablon seç" />
             </SelectTrigger>
             <SelectContent>
               {templates.map((template: Template) => (
@@ -255,13 +255,13 @@ export default function EditCertificateDialog({
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="top">
-                Delete this certificate
+                Bu sertifikayı sil
               </TooltipContent>
             </Tooltip>
           </Form>
           <Button type="submit" form={form.id} disabled={isSubmitting}>
             {isSubmitting && <LoaderCircle className="mr-2 animate-spin" />}
-            Save changes
+            Değişiklikleri Kaydet
           </Button>
         </DialogFooter>
       </DialogContent>

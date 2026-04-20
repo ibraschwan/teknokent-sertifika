@@ -32,7 +32,7 @@ export async function action({ request }: Route.ActionArgs) {
 	if (!user) {
 		throw new Response(null, {
 			status: 404,
-			statusText: "No user found with this email.",
+			statusText: "Bu e-posta ile kullanıcı bulunamadı.",
 		});
 	}
 
@@ -65,12 +65,12 @@ export function ErrorBoundary() {
 	} else if (error instanceof Error) {
 		errorInfo = (
 			<div>
-				<h1>Error</h1>
+				<h1>Hata</h1>
 				<p>{error.message}</p>
 			</div>
 		);
 	} else {
-		errorInfo = <h1>Unknown Error</h1>;
+		errorInfo = <h1>Bilinmeyen Hata</h1>;
 	}
 
 	return (

@@ -91,7 +91,7 @@ export default function UserUploadPictureDialog({
 						URL.createObjectURL(transparentImage);
 					setTransparentPreviewUrl(transparentImageUrl);
 				} catch (err) {
-					setError("Failed to remove background. Please try again.");
+					setError("Arka plan kaldırılamadı. Lütfen tekrar dene.");
 					console.error("Background removal error:", err);
 				} finally {
 					setIsLoading(false);
@@ -291,7 +291,7 @@ export default function UserUploadPictureDialog({
 				}
 			} catch (e) {
 				console.error("Error cropping image:", e);
-				setError("Failed to crop image. Please try again.");
+				setError("Görsel kırpılamadı. Lütfen tekrar dene.");
 			}
 		}
 	};
@@ -340,13 +340,13 @@ export default function UserUploadPictureDialog({
 			<TooltipProvider delayDuration={0}>
 				<DialogContent className="sm:max-w-[425px]">
 					<DialogHeader>
-						<DialogTitle>Upload picture</DialogTitle>
+						<DialogTitle>Fotoğraf yükle</DialogTitle>
 						<DialogDescription>
-							Select a photo to be used when sharing your
-							certificates. We will remove the background for you.
-							Please move and zoom the picture to cover as much as
-							possible while keeping all the edges green. Try to
-							avoid obvious cut-offs.
+							Sertifikalarını paylaşırken kullanılacak bir fotoğraf
+							seç. Arka planı senin için kaldıracağız. Lütfen tüm
+							kenarları yeşil tutarken olabildiğince çok yer
+							kapatacak şekilde fotoğrafı hareket ettir ve yakınlaştır.
+							Belirgin kesintilerden kaçınmaya çalış.
 						</DialogDescription>
 					</DialogHeader>
 					<fetcher.Form
@@ -459,8 +459,8 @@ export default function UserUploadPictureDialog({
 													<Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
 													<p>
 														{isLoading
-															? "Removing background..."
-															: "Uploading..."}
+															? "Arka plan kaldırılıyor..."
+															: "Yükleniyor..."}
 													</p>
 												</div>
 											</div>
@@ -472,7 +472,7 @@ export default function UserUploadPictureDialog({
 											<img
 												src={`/user/photo/preview.png?t=${userPhoto.updatedAt}`}
 												className=""
-												alt="This will be used on the social media preview of your certificates"
+												alt="Bu, sertifikalarının sosyal medya önizlemesinde kullanılacak"
 											/>
 										) : (
 											<>
@@ -482,7 +482,7 @@ export default function UserUploadPictureDialog({
 													aria-hidden="true"
 												/>
 												<span className="sr-only">
-													Placeholder for user avatar
+													Kullanıcı avatarı için yer tutucu
 												</span>
 											</>
 										)}
@@ -491,7 +491,7 @@ export default function UserUploadPictureDialog({
 							</div>
 							{(originalPreviewUrl || transparentPreviewUrl) && (
 								<div className="flex items-center gap-2">
-									<Label htmlFor="zoom">Zoom</Label>
+									<Label htmlFor="zoom">Yakınlaştır</Label>
 									<Slider
 										id="zoom"
 										min={0.5}
@@ -528,14 +528,14 @@ export default function UserUploadPictureDialog({
 										</Button>
 									</TooltipTrigger>
 									<TooltipContent side="top">
-										Delete photo
+										Fotoğrafı sil
 									</TooltipContent>
 								</Tooltip>
 							</Form>
 						)}
 						<Button type="button" variant="outline" asChild>
 							<Link to={location.state?.fromPath ?? "/"}>
-								Back
+								Geri
 							</Link>
 						</Button>
 						<Button
@@ -547,7 +547,7 @@ export default function UserUploadPictureDialog({
 							}
 							onClick={() => handleSubmit()}
 						>
-							Upload Picture
+							Fotoğraf Yükle
 						</Button>
 					</DialogFooter>
 				</DialogContent>

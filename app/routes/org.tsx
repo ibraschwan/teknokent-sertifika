@@ -17,7 +17,7 @@ import { prisma } from "~/lib/prisma.server";
 import { getOrg } from "~/lib/organisation.server";
 
 export function meta({ data }: Route.MetaArgs) {
-  return [{ title: `${data?.org?.name} Certificates` }];
+  return [{ title: `${data?.org?.name} Sertifikalar` }];
 }
 
 export async function loader({ request, params }: Route.LoaderArgs) {
@@ -65,7 +65,7 @@ export default function OrgDashboard({ loaderData }: Route.ComponentProps) {
                 <Input
                   type="search"
                   name="term"
-                  placeholder="Search..."
+                  placeholder="Ara..."
                   className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
                 />
               </Form>

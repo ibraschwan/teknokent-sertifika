@@ -13,7 +13,7 @@ import { getProgramsByAdmin } from "~/lib/program.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta() {
-  return [{ title: "Programs" }];
+  return [{ title: "Programlar" }];
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -44,7 +44,7 @@ export default function OrgIndex({ loaderData }: Route.ComponentProps) {
     <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 items-stretch gap-4 md:gap-8">
       <div className="col-span-1 lg:col-span-2 xl:col-span-3">
         <Button asChild>
-          <Link to="create">Add Program</Link>
+          <Link to="create">Program Ekle</Link>
         </Button>
       </div>
 
@@ -81,7 +81,7 @@ export default function OrgIndex({ loaderData }: Route.ComponentProps) {
               <Button variant="outline" asChild>
                 <Link to={`${program.id}/batch`}>
                   <FileBadge /> {countCertificates}{" "}
-                  {countCertificates === 1 ? "Certificate" : "Certificates"}
+                  {countCertificates === 1 ? "Sertifika" : "Sertifikalar"}
                 </Link>
               </Button>
               <div className="flex gap-2">
@@ -93,34 +93,34 @@ export default function OrgIndex({ loaderData }: Route.ComponentProps) {
                       </Link>
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent side="top">Edit templates</TooltipContent>
+                  <TooltipContent side="top">Şablonları düzenle</TooltipContent>
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button variant="outline" size="icon" asChild>
                       <Link
                         to={`${program.id}/user`}
-                        aria-label="Manage access"
+                        aria-label="Erişimi yönet"
                       >
                         <UsersIcon />
                       </Link>
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent side="top">Manage access</TooltipContent>
+                  <TooltipContent side="top">Erişimi yönet</TooltipContent>
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button variant="outline" size="icon" asChild>
                       <Link
                         to={`${program.id}/settings`}
-                        aria-label="Edit program"
+                        aria-label="Programı düzenle"
                       >
                         <Settings />
                       </Link>
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="top">
-                    Edit program settings
+                    Program ayarlarını düzenle
                   </TooltipContent>
                 </Tooltip>
               </div>

@@ -41,7 +41,7 @@ export function FormUpdate({
 					disabled={!hasChanges || !isValid}
 				>
 					{fetcher.state === "idle" ? (
-						"Save"
+						"Kaydet"
 					) : (
 						<LoaderCircle className="animate-spin" />
 					)}
@@ -60,7 +60,7 @@ export function FormUpdate({
 							: "invisible"
 					}
 					disabled={!hasChanges}
-					title="Reset changes"
+					title="Değişiklikleri sıfırla"
 				>
 					<Undo2 />
 				</Button>

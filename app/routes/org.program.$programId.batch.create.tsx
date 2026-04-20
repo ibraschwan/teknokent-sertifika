@@ -18,7 +18,7 @@ import { requireAdminWithProgram } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta() {
-  return [{ title: "Add Batch" }];
+  return [{ title: "Dönem Ekle" }];
 }
 
 export async function action({ request, params }: Route.ActionArgs) {
@@ -79,22 +79,22 @@ export default function CreateBatchDialog() {
           }}
         >
           <DialogHeader>
-            <DialogTitle>Add batch</DialogTitle>
+            <DialogTitle>Dönem ekle</DialogTitle>
             <DialogDescription>
-              Create a new batch for this program
+              Bu program için yeni bir dönem oluştur
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">Ad</Label>
             <Input id="name" name="name" required />
-            <Label htmlFor="startDate">Start date</Label>
+            <Label htmlFor="startDate">Başlangıç tarihi</Label>
             <Input type="date" id="startDate" name="startDate" required />
-            <Label htmlFor="endDate">End date</Label>
+            <Label htmlFor="endDate">Bitiş tarihi</Label>
             <Input type="date" id="endDate" name="endDate" required />
           </div>
           <DialogFooter>
             <Button type="submit" disabled={!formIsValid}>
-              Save Batch
+              Dönemi Kaydet
             </Button>
           </DialogFooter>
         </Form>

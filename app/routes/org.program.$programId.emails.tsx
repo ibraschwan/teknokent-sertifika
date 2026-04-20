@@ -2,7 +2,7 @@ import type { Route } from "./+types/org.program.$programId.emails";
 import { requireAdmin } from "~/lib/auth.server";
 
 export function meta() {
-  return [{ title: "Email Templates" }];
+  return [{ title: "E-posta Şablonları" }];
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -12,5 +12,5 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function ProgramEmailsPage() {
-  return <div>Email Templates</div>;
+  return <div>E-posta Şablonları</div>;
 }

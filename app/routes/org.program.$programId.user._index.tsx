@@ -22,7 +22,7 @@ import { requireAdminWithProgram } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta() {
-  return [{ title: "Program User" }];
+  return [{ title: "Program Kullanıcısı" }];
 }
 
 export async function loader({ request, params }: Route.LoaderArgs) {
@@ -124,13 +124,13 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
         <Button asChild>
           <Link to="invite">
             <UserPlus strokeWidth={3} />
-            Invite Program Manager
+            Program Yöneticisi Davet Et
           </Link>
         </Button>
       </div>
       <p className="text-muted-foreground text-sm">
-        The following people can manage certificates and settings for{" "}
-        {program.name}.
+        Aşağıdaki kişiler {program.name} için sertifikaları ve ayarları
+        yönetebilir.
       </p>
       <Table>
         <TableHeader>
@@ -147,7 +147,7 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
                   });
                 }}
               >
-                Name {searchParams.get("sort") === "name" && <ArrowDown />}
+                Ad Soyad {searchParams.get("sort") === "name" && <ArrowDown />}
               </Button>
             </TableHead>
             <TableHead className="font-medium">
@@ -162,7 +162,7 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
                   });
                 }}
               >
-                Email {searchParams.get("sort") === "email" && <ArrowDown />}
+                E-posta {searchParams.get("sort") === "email" && <ArrowDown />}
               </Button>
             </TableHead>
             <TableHead>
@@ -177,7 +177,7 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
                   });
                 }}
               >
-                Permissions{" "}
+                İzinler{" "}
                 {searchParams.get("sort") === "permission" && <ArrowDown />}
               </Button>
             </TableHead>
@@ -191,17 +191,17 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
                 {invite.firstName} {invite.lastName}
               </TableCell>
               <TableCell className="font-medium">{invite.email}</TableCell>
-              <TableCell>Invite pending…</TableCell>
+              <TableCell>Davet bekleniyor…</TableCell>
               <TableCell className="text-foreground">
                 <Form action={`invite/${invite.id}/delete`} method="POST">
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button variant="outline">
-                        <MailX /> Cancel
+                        <MailX /> İptal
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent side="top">
-                      Cancel invitation
+                      Daveti iptal et
                     </TooltipContent>
                   </Tooltip>
                 </Form>
@@ -216,10 +216,10 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
               <TableCell className="font-medium">{u.email}</TableCell>
               <TableCell>
                 {u.isSuperAdmin
-                  ? "Super Admin"
+                  ? "Süper Yönetici"
                   : u.isAdmin
-                  ? "Program Manager"
-                  : "View Certificates"}
+                  ? "Program Yöneticisi"
+                  : "Sertifikaları Görüntüle"}
               </TableCell>
               <TableCell>
                 {!u.isSuperAdmin && (
@@ -229,12 +229,12 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
                         <Button
                           type="submit"
                           variant="outline"
-                          aria-label="Remove program manager permissions"
+                          aria-label="Program yöneticisi izinlerini kaldır"
                         >
-                          <UserX /> Remove
+                          <UserX /> Kaldır
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent side="top">Remove access</TooltipContent>
+                      <TooltipContent side="top">Erişimi kaldır</TooltipContent>
                     </Tooltip>
                   </Form>
                 )}
@@ -244,7 +244,7 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
           {user.length === 0 && (
             <TableRow>
               <TableCell colSpan={5} className="text-destructive">
-                No user in the database.
+                Veritabanında kullanıcı yok.
               </TableCell>
             </TableRow>
           )}

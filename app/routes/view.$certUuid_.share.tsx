@@ -20,7 +20,7 @@ import { prisma } from "~/lib/prisma.server";
 import { replaceVariables } from "~/lib/text-variables";
 
 export function meta() {
-  return [{ title: "Share certificate" }];
+  return [{ title: "Sertifikayı Paylaş" }];
 }
 
 export async function loader({ request, params }: Route.LoaderArgs) {
@@ -105,24 +105,24 @@ export default function ViewCertificateShare({
         </header>
 
         <section className="flex flex-col p-8 gap-4 grow">
-          <h1 className="text-5xl font-bold mb-4">Share your certificate</h1>
+          <h1 className="text-5xl font-bold mb-4">Sertifikanı paylaş</h1>
 
           <p>
-            Tell the world about your achievements and share your certificate on
-            LinkedIn or other social media.
+            Başarılarını dünyayla paylaş ve sertifikanı LinkedIn veya diğer
+            sosyal medya platformlarında yayınla.
           </p>
 
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
             <Button asChild>
               <Link to="/user/photo" state={{ fromPath: pathname }}>
                 <SquareUserRound />
-                {user.photo ? "Change" : "Add"} photo
+                {user.photo ? "Fotoğrafı değiştir" : "Fotoğraf ekle"}
               </Link>
             </Button>
             {!user.photo && (
               <img
                 src="/assets/scribble-add-photo.svg"
-                alt="Add yourself to the preview here"
+                alt="Kendini önizlemeye buradan ekle"
                 className="ml-[75px] w-[60%] sm:w-[40%]"
               />
             )}
@@ -131,8 +131,8 @@ export default function ViewCertificateShare({
           <Card className="max-w-[650px]">
             <CardHeader>
               <CardTitle className="text-xl">
-                {certificate.firstName} {certificate.lastName} is certified by{" "}
-                {certificate.batch.program.name}
+                {certificate.firstName} {certificate.lastName},{" "}
+                {certificate.batch.program.name} tarafından sertifikalandırıldı
               </CardTitle>
               <CardDescription>
                 <Markdown>
@@ -155,14 +155,14 @@ export default function ViewCertificateShare({
                 <img
                   src={`/cert/${certificate.uuid}/social-preview.png?t=${certificate.updatedAt}`}
                   className="w-full max-w-[600px] aspect-[1.91/1]"
-                  alt="Social media preview for shared certificates"
+                  alt="Paylaşılan sertifikalar için sosyal medya önizlemesi"
                 />
               ) : (
                 <div className="grid grid-cols-1 grid-rows-1 w-full max-w-[600px]">
                   <img
                     src={`/cert/${certificate.uuid}/social-preview.png?t=${certificate.updatedAt}`}
                     className="w-full aspect-[1.91/1] col-start-1 row-start-1"
-                    alt="Social media preview for shared certificates"
+                    alt="Paylaşılan sertifikalar için sosyal medya önizlemesi"
                   />
                   <Link
                     to="/user/photo"
@@ -172,7 +172,7 @@ export default function ViewCertificateShare({
                     <img
                       src={`/cert/${certificate.uuid}/social-preview.png?t=${certificate.updatedAt}&withPlaceholder=1`}
                       className="w-full aspect-[1.91/1]"
-                      alt="Social media preview for shared certificates with a placeholder where you could appear"
+                      alt="Sertifikanızın görüneceği yerde bir yer tutucu bulunan sosyal medya önizlemesi"
                     />
                   </Link>
                 </div>
@@ -186,12 +186,12 @@ export default function ViewCertificateShare({
               {copiedToClipboard ? (
                 <>
                   <ClipboardCheck />
-                  Done
+                  Tamam
                 </>
               ) : (
                 <>
                   <ClipboardCopy />
-                  Copy URL
+                  Bağlantıyı kopyala
                 </>
               )}
             </Button>
@@ -203,7 +203,7 @@ export default function ViewCertificateShare({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Post on LinkedIn
+                LinkedIn'de Paylaş
               </a>
             </Button>
           </div>

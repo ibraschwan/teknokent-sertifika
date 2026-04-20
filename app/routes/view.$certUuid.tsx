@@ -20,7 +20,7 @@ import { replaceVariables } from "~/lib/text-variables";
 export function meta({ data }: Route.MetaArgs) {
   return [
     {
-      title: `${data?.certificate.firstName} ${data?.certificate.lastName} is certified by ${data?.certificate.batch.program.name}`,
+      title: `${data?.certificate.firstName} ${data?.certificate.lastName}, ${data?.certificate.batch.program.name} tarafından sertifikalandırıldı`,
     },
     {
       name: "description",
@@ -35,7 +35,7 @@ export function meta({ data }: Route.MetaArgs) {
     },
     {
       property: "og:title",
-      content: `${data?.certificate.firstName} ${data?.certificate.lastName} is certified by ${data?.certificate.batch.program.name}`,
+      content: `${data?.certificate.firstName} ${data?.certificate.lastName}, ${data?.certificate.batch.program.name} tarafından sertifikalandırıldı`,
     },
     {
       property: "og:description",
@@ -101,7 +101,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
       console.error(error);
       throwErrorResponse(
         error,
-        "Could not find the certificate you are looking for.",
+        "Aradığın sertifika bulunamadı.",
       );
     });
 
@@ -156,14 +156,14 @@ export default function ViewCertificate({ loaderData }: Route.ComponentProps) {
           {!user && (
             <Button variant={signUpMail ? "default" : "outline"} asChild>
               {signUpMail ? (
-                <Link to={`/user/sign/up?email=${signUpMail}`}>Sign up</Link>
+                <Link to={`/user/sign/up?email=${signUpMail}`}>Kayıt ol</Link>
               ) : (
                 <Link
                   to={`/user/sign/in${
                     signInMail ? "?email=".concat(signInMail) : ""
                   }`}
                 >
-                  Sign in
+                  Giriş yap
                 </Link>
               )}
             </Button>
@@ -194,14 +194,14 @@ export default function ViewCertificate({ loaderData }: Route.ComponentProps) {
                 reloadDocument
               >
                 <Download />
-                Download Certificate
+                Sertifikayı İndir
               </Link>
             </Button>
             {userIsOwner && (
               <Button asChild>
                 <Link to={`/view/${certificate.uuid}/share`}>
                   <Share />
-                  Share on Social Media
+                  Sosyal Medyada Paylaş
                 </Link>
               </Button>
             )}
@@ -219,13 +219,13 @@ export default function ViewCertificate({ loaderData }: Route.ComponentProps) {
                       }
                     >
                       <Share />
-                      Share on Social Media
+                      Sosyal Medyada Paylaş
                     </Link>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="top">
-                  Sign {signInMail ? "in" : "up"} to share a personalized
-                  preview with your photo
+                  Fotoğrafınla kişiselleştirilmiş bir önizleme paylaşmak için{" "}
+                  {signInMail ? "giriş yap" : "kayıt ol"}
                 </TooltipContent>
               </Tooltip>
             )}
@@ -236,7 +236,7 @@ export default function ViewCertificate({ loaderData }: Route.ComponentProps) {
         {certificate.batch.program.about && (
           <>
             <h3 className="font-bold">
-              About {certificate.batch.program.name}
+              {certificate.batch.program.name} Hakkında
             </h3>
             <Markdown>{certificate.batch.program.about}</Markdown>
           </>
@@ -261,13 +261,13 @@ export default function ViewCertificate({ loaderData }: Route.ComponentProps) {
           {org?.name}&emsp;&middot;&emsp;
           {org?.imprintUrl && (
             <a href={org.imprintUrl} target="_blank" rel="noopener noreferrer">
-              Imprint
+              Künye
             </a>
           )}
           &emsp;&middot;&emsp;
           {org?.privacyUrl && (
             <a href={org.privacyUrl} target="_blank" rel="noopener noreferrer">
-              Privacy
+              Gizlilik
             </a>
           )}
         </div>
@@ -276,7 +276,7 @@ export default function ViewCertificate({ loaderData }: Route.ComponentProps) {
         <img
           className="drop-shadow-xl h-full max-h-[calc(100vh-64px)] object-contain"
           src={`/cert/${certificate.uuid}/preview.png?t=${certificate.updatedAt}`}
-          alt="Preview of the certificate"
+          alt="Sertifika önizlemesi"
         />
       </div>
     </div>

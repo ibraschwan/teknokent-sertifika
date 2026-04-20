@@ -22,7 +22,7 @@ import { MailCheck } from "lucide-react";
 import { Button } from "~/components/ui/button";
 
 export function meta() {
-  return [{ title: "Search Organisation" }];
+  return [{ title: "Organizasyonda Ara" }];
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -103,21 +103,20 @@ export default function OrgSearchResults({ loaderData }: Route.ComponentProps) {
   return (
     <div className="flex flex-col gap-4">
       <p>
-        Search results for ›{term}‹ in {org?.name}.<br />
+        {org?.name} içinde ›{term}‹ için arama sonuçları.<br />
         <span className="text-sm text-muted-foreground">
-          Found {certificates.length} certificate
-          {certificates.length !== 1 ? "s" : ""}.
+          {certificates.length} sertifika bulundu.
         </span>
       </p>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead className="font-medium">Email</TableHead>
-            <TableHead>Team</TableHead>
-            <TableHead>Batch</TableHead>
+            <TableHead>Ad Soyad</TableHead>
+            <TableHead className="font-medium">E-posta</TableHead>
+            <TableHead>Takım</TableHead>
+            <TableHead>Dönem</TableHead>
             <TableHead>Program</TableHead>
-            <TableHead colSpan={2}>Actions</TableHead>
+            <TableHead colSpan={2}>İşlemler</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -145,7 +144,7 @@ export default function OrgSearchResults({ loaderData }: Route.ComponentProps) {
                       to={`/org/program/${cert.batch.program.id}/batch/${cert.batch.id}/certificates/${cert.id}/preview`}
                       className="hover:underline"
                     >
-                      Open
+                      Aç
                     </Link>
                   </Button>
                 </TableCell>

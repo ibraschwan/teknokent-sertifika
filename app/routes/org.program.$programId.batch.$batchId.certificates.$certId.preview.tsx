@@ -9,7 +9,7 @@ import { requireAdminWithProgram } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta() {
-  return [{ title: "Preview Certificate" }];
+  return [{ title: "Sertifika Önizleme" }];
 }
 
 export async function loader({ request, params }: Route.LoaderArgs) {
@@ -56,29 +56,29 @@ export default function CertificatePage({ loaderData }: Route.ComponentProps) {
       <div className="flex px-8 gap-2">
         <Button asChild>
           <Link to={`/cert/${certificate.uuid}/download.pdf`} reloadDocument>
-            Download Certificate
+            Sertifikayı İndir
           </Link>
         </Button>
         <Button variant="link" asChild>
-          <Link to={`/view/${certificate.uuid}`}>View public page</Link>
+          <Link to={`/view/${certificate.uuid}`}>Genel sayfayı görüntüle</Link>
         </Button>
       </div>
 
       <img
         className="px-8 drop-shadow-xl self-center"
         src={`/cert/${certificate.uuid}/preview.png?t=${certificate.updatedAt}`}
-        alt="Preview of the certificate"
+        alt="Sertifika önizlemesi"
       />
 
       {socialPreview && (
         <div className="px-8">
           <span className="text-sm font-semibold text-muted-foreground">
-            Social Media Preview
+            Sosyal Medya Önizlemesi
           </span>
           <img
             src={`/cert/${certificate.uuid}/social-preview.png?t=${certificate.updatedAt}`}
             className="drop-shadow-xl aspect-[1.91/1]"
-            alt="Social media preview for shared certificates"
+            alt="Paylaşılan sertifikalar için sosyal medya önizlemesi"
           />
         </div>
       )}

@@ -41,7 +41,7 @@ import { LayoutQRCodeEditor } from "~/components/template-qrcode-editor";
 import { useToast } from "~/hooks/use-toast";
 
 export function meta({ data }: Route.MetaArgs) {
-  return [{ title: `Template ${data?.template?.name}` }];
+  return [{ title: `Şablon ${data?.template?.name}` }];
 }
 
 export async function action({ request, params }: Route.ActionArgs) {
@@ -174,9 +174,9 @@ export default function TemplateEditorPage({
       setTimeout(() => setPasteSuccess(false), 500);
     } else {
       toast({
-        title: "🔴 Paste layout failed",
+        title: "🔴 Yerleşim yapıştırılamadı",
         description:
-          "No valid layout definition found while trying to paste the layout from the clipboard.",
+          "Panodan yerleşimi yapıştırmaya çalışırken geçerli bir yerleşim tanımı bulunamadı.",
       });
     }
   };
@@ -195,14 +195,14 @@ export default function TemplateEditorPage({
     <div className="pt-2 grid grid-cols-2 gap-4 items-start">
       <div className="flex flex-col gap-2 pb-8">
         <div className="flex h-10 items-center gap-1.5">
-          <Label>Template Layout</Label>
+          <Label>Şablon Yerleşimi</Label>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="ghost" onClick={clipboardCopy}>
                 {copySuccess ? <ClipboardCheck /> : <ClipboardCopy />}
               </Button>
             </TooltipTrigger>
-            <TooltipContent side="top">Copy Layout</TooltipContent>
+            <TooltipContent side="top">Yerleşimi Kopyala</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -210,14 +210,14 @@ export default function TemplateEditorPage({
                 {pasteSuccess ? <ClipboardCheck /> : <ClipboardPaste />}
               </Button>
             </TooltipTrigger>
-            <TooltipContent side="top">Paste Layout</TooltipContent>
+            <TooltipContent side="top">Yerleşimi Yapıştır</TooltipContent>
           </Tooltip>
           <div className="grow" />
           <Form key={template.id} method="POST">
             <input type="hidden" name="layout" value={JSON.stringify(layout)} />
             <input type="hidden" name="qrcode" value={JSON.stringify(qrcode)} />
             <Button type="submit" disabled={navigation.state !== "idle"}>
-              Save and Preview
+              Kaydet ve Önizle
             </Button>
           </Form>
         </div>
@@ -241,13 +241,13 @@ export default function TemplateEditorPage({
       </div>
       <div className="flex flex-col gap-2">
         <Label className="flex grow h-10 justify-center items-center">
-          Template Preview
+          Şablon Önizlemesi
         </Label>
 
         <img
           className="drop-shadow-xl self-center"
           src={`preview.png?t=${template.updatedAt}`}
-          alt="Preview of the template"
+          alt="Şablon önizlemesi"
         />
       </div>
     </div>
@@ -294,9 +294,9 @@ export function ErrorBoundary() {
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Error</DialogTitle>
+          <DialogTitle>Hata</DialogTitle>
           <DialogDescription>
-            The template could not be saved.
+            Şablon kaydedilemedi.
             <br />
             {additionalInfo}
           </DialogDescription>
@@ -308,7 +308,7 @@ export function ErrorBoundary() {
               navigate(backLink);
             }}
           >
-            Understood
+            Anladım
           </Button>
         </DialogFooter>
       </DialogContent>

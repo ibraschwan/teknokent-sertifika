@@ -25,7 +25,7 @@ import { requireAdminWithProgram } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta() {
-  return [{ title: "Edit Batch" }];
+  return [{ title: "Dönemi Düzenle" }];
 }
 
 export async function action({ request, params }: Route.ActionArgs) {
@@ -99,23 +99,23 @@ export default function EditBatchDialog({
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Batch settings</DialogTitle>
+          <DialogTitle>Dönem ayarları</DialogTitle>
           <DialogDescription>
-            Change the batch information as needed. Do not forget to refresh the
-            certificates afterwards.
+            Dönem bilgilerini gerektiği şekilde değiştir. Sonrasında
+            sertifikaları yenilemeyi unutma.
           </DialogDescription>
         </DialogHeader>
         <Form method="POST" ref={formRef} className="grid gap-4 py-4">
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name">Ad</Label>
           <Input id="name" name="name" defaultValue={batch.name} />
-          <Label htmlFor="startDate">Start date</Label>
+          <Label htmlFor="startDate">Başlangıç tarihi</Label>
           <Input
             type="date"
             id="startDate"
             name="startDate"
             defaultValue={batch.startDate.toISOString().split("T")[0]}
           />
-          <Label htmlFor="endDate">End date</Label>
+          <Label htmlFor="endDate">Bitiş tarihi</Label>
           <Input
             type="date"
             id="endDate"
@@ -134,11 +134,11 @@ export default function EditBatchDialog({
                 </Button>
               </Link>
             </TooltipTrigger>
-            <TooltipContent side="top">Delete this batch</TooltipContent>
+            <TooltipContent side="top">Bu dönemi sil</TooltipContent>
           </Tooltip>
 
           <Button onClick={() => formRef.current?.submit()}>
-            Save changes
+            Değişiklikleri Kaydet
           </Button>
         </DialogFooter>
       </DialogContent>

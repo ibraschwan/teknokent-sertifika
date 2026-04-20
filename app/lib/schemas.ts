@@ -8,68 +8,68 @@ import { assessPassword } from "~/components/password-indicator";
 
 export const RegisterSchema = z.object({
 	email: z
-		.string("Please enter an email address")
-		.min(1, { message: "Please enter an email address" })
+		.string("Lütfen bir e-posta adresi gir")
+		.min(1, { message: "Lütfen bir e-posta adresi gir" })
 		.email({
 			pattern: z.regexes.unicodeEmail,
-			message: "This email looks incomplete",
+			message: "Bu e-posta eksik görünüyor",
 		})
 		.toLowerCase(),
 	password: z
-		.string("Please enter a password")
+		.string("Lütfen bir parola gir")
 		.trim()
 		.refine((val) => assessPassword(val).enough, {
-			error: "Please use a stronger password",
+			error: "Lütfen daha güçlü bir parola kullan",
 		}),
-	firstName: z.string("Please enter your first name (given name)").trim(),
-	lastName: z.string("Please enter your last name (family name)").trim(),
+	firstName: z.string("Lütfen adını gir").trim(),
+	lastName: z.string("Lütfen soyadını gir").trim(),
 });
 
 export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
 
 export const LoginSchema = z.object({
 	email: z
-		.string("Please enter an email address")
-		.min(1, { message: "Please enter an email address" })
+		.string("Lütfen bir e-posta adresi gir")
+		.min(1, { message: "Lütfen bir e-posta adresi gir" })
 		.email({
 			pattern: z.regexes.unicodeEmail,
-			message: "This email looks incomplete",
+			message: "Bu e-posta eksik görünüyor",
 		})
 		.toLowerCase(),
-	password: z.string("Please enter a password").trim(),
+	password: z.string("Lütfen bir parola gir").trim(),
 });
 
 export const EmailSchema = z.object({
 	email: z
-		.string("Please enter an email address")
-		.min(1, { message: "Please enter an email address" })
+		.string("Lütfen bir e-posta adresi gir")
+		.min(1, { message: "Lütfen bir e-posta adresi gir" })
 		.email({
 			pattern: z.regexes.unicodeEmail,
-			message: "This email looks incomplete",
+			message: "Bu e-posta eksik görünüyor",
 		})
 		.toLowerCase(),
 });
 
 export const PasswordSchema = z.object({
 	password: z
-		.string("Please enter a password")
+		.string("Lütfen bir parola gir")
 		.trim()
 		.refine((val) => assessPassword(val).enough, {
-			error: "Please use a stronger password",
+			error: "Lütfen daha güçlü bir parola kullan",
 		}),
 });
 
 export const CertificateInputSchema = z.object({
 	firstName: z
-		.string("Please provide at least a first name")
-		.min(1, { message: "Please provide at least a first name" }),
+		.string("Lütfen en azından bir ad gir")
+		.min(1, { message: "Lütfen en azından bir ad gir" }),
 	lastName: z.string().optional().nullable(),
 	email: z
-		.string("Please enter an email address")
-		.min(1, { message: "Please enter an email address" })
+		.string("Lütfen bir e-posta adresi gir")
+		.min(1, { message: "Lütfen bir e-posta adresi gir" })
 		.email({
 			pattern: z.regexes.unicodeEmail,
-			message: "This email looks incomplete",
+			message: "Bu e-posta eksik görünüyor",
 		})
 		.toLowerCase(),
 	teamName: z.string().optional().nullable(),

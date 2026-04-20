@@ -40,7 +40,7 @@ import {
 import { prisma, throwErrorResponse } from "~/lib/prisma.server";
 
 export function meta() {
-  return [{ title: "Add Certificate" }];
+  return [{ title: "Sertifika Ekle" }];
 }
 
 import { CertificateInputSchema as schema } from "~/lib/schemas";
@@ -80,7 +80,7 @@ export async function action({ request, params }: Route.ActionArgs) {
     })
     .catch((error) => {
       console.error(error);
-      throwErrorResponse(error, "Could not create certificate");
+      throwErrorResponse(error, "Sertifika oluşturulamadı");
     });
 
   if (certificate) {
@@ -161,21 +161,21 @@ export default function CreateCertificateDialog({
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add certificate</DialogTitle>
+          <DialogTitle>Sertifika ekle</DialogTitle>
           <DialogDescription>
-            Please add the required information
+            Lütfen gerekli bilgileri ekle
           </DialogDescription>
         </DialogHeader>
         <Form method="POST" className="grid gap-2 py-4" {...getFormProps(form)}>
           <div className="grid grid-cols-2 gap-2 mb-2">
             <FormField
               {...getInputProps(fields.firstName, { type: "text" })}
-              label="First name"
+              label="Ad"
               error={""}
             />
             <FormField
               {...getInputProps(fields.lastName, { type: "text" })}
-              label="Last name"
+              label="Soyad"
               error={fields.lastName.errors?.join(", ")}
             />
           </div>
@@ -187,17 +187,17 @@ export default function CreateCertificateDialog({
           </div>
           <FormField
             {...getInputProps(fields.email, { type: "email" })}
-            label="Email"
+            label="E-posta"
             error={fields.email.errors?.join(", ")}
           />
 
           <FormField
             {...getInputProps(fields.teamName, { type: "text" })}
-            label="Team"
+            label="Takım"
             error={fields.teamName.errors?.join(", ")}
           />
 
-          <Label htmlFor="templateId">Template</Label>
+          <Label htmlFor="templateId">Şablon</Label>
           <Select
             {...getSelectProps(fields.templateId)}
             defaultValue={
@@ -205,7 +205,7 @@ export default function CreateCertificateDialog({
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select a template" />
+              <SelectValue placeholder="Bir şablon seç" />
             </SelectTrigger>
             <SelectContent>
               {templates.map((template: Template) => (
@@ -220,7 +220,7 @@ export default function CreateCertificateDialog({
         <DialogFooter>
           <Button type="submit" form={form.id} disabled={isSubmitting}>
             {isSubmitting && <LoaderCircle className="mr-2 animate-spin" />}
-            Create certificate
+            Sertifika oluştur
           </Button>
         </DialogFooter>
       </DialogContent>

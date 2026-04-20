@@ -26,7 +26,7 @@ import { requireAdminWithProgram } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta() {
-  return [{ title: "Edit Program" }];
+  return [{ title: "Programı Düzenle" }];
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -96,24 +96,24 @@ export default function EditBatchDialog({ loaderData }: Route.ComponentProps) {
     >
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
-          <DialogTitle>Program settings</DialogTitle>
+          <DialogTitle>Program ayarları</DialogTitle>
           <DialogDescription>
-            Change the program information as needed.
+            Program bilgilerini gerektiği gibi değiştir.
           </DialogDescription>
         </DialogHeader>
         <Form method="POST" ref={formRef}>
           <div className="grid gap-4 py-4">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">Ad</Label>
             <Input id="name" name="name" defaultValue={program.name} />
 
-            <Label htmlFor="achievement">Achievement</Label>
+            <Label htmlFor="achievement">Başarı</Label>
             <Textarea
               id="achievement"
               name="achievement"
               defaultValue={program.achievement ?? ""}
             />
 
-            <Label htmlFor="about">About the program</Label>
+            <Label htmlFor="about">Program hakkında</Label>
             <Textarea
               id="about"
               name="about"
@@ -121,7 +121,7 @@ export default function EditBatchDialog({ loaderData }: Route.ComponentProps) {
               rows={6}
             />
 
-            <Label htmlFor="website">Website</Label>
+            <Label htmlFor="website">Web sitesi</Label>
             <Input
               id="website"
               name="website"
@@ -138,11 +138,11 @@ export default function EditBatchDialog({ loaderData }: Route.ComponentProps) {
                   <Trash2Icon />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="top">Delete this program</TooltipContent>
+              <TooltipContent side="top">Bu programı sil</TooltipContent>
             </Tooltip>
           </Form>
           <Button onClick={() => formRef.current?.submit()}>
-            Save changes
+            Değişiklikleri Kaydet
           </Button>
         </DialogFooter>
       </DialogContent>

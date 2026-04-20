@@ -25,9 +25,9 @@ import { requireSuperAdmin } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 const mapFontWeight: Record<number, string> = {
-  200: "Light",
-  400: "Regular",
-  700: "Bold",
+  200: "İnce",
+  400: "Normal",
+  700: "Kalın",
 };
 
 function capitalizeFirst(string: string) {
@@ -35,7 +35,7 @@ function capitalizeFirst(string: string) {
 }
 
 export function meta() {
-  return [{ title: "Typefaces" }];
+  return [{ title: "Yazı Tipleri" }];
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -61,16 +61,16 @@ export default function TypefaceIndexPage({
     <div className="flex flex-col gap-4">
       <div>
         <Button asChild>
-          <Link to="create">Add Typeface</Link>
+          <Link to="create">Yazı Tipi Ekle</Link>
         </Button>
       </div>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="font-medium">Name</TableHead>
-            <TableHead>Weight</TableHead>
-            <TableHead>Style</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead className="font-medium">Ad</TableHead>
+            <TableHead>Kalınlık</TableHead>
+            <TableHead>Stil</TableHead>
+            <TableHead>İşlemler</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -86,10 +86,10 @@ export default function TypefaceIndexPage({
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button type="submit" variant="outline">
-                        <Trash2Icon /> Delete
+                        <Trash2Icon /> Sil
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent side="top">Delete typeface</TooltipContent>
+                    <TooltipContent side="top">Yazı tipini sil</TooltipContent>
                   </Tooltip>
                 </Form>
               </TableCell>
@@ -98,7 +98,7 @@ export default function TypefaceIndexPage({
           {typefaces.length === 0 && (
             <TableRow>
               <TableCell colSpan={5} className="text-destructive">
-                No typefaces in the database. Please upload a font file.
+                Veritabanında yazı tipi yok. Lütfen bir yazı tipi dosyası yükle.
               </TableCell>
             </TableRow>
           )}

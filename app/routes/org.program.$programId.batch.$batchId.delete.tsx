@@ -40,12 +40,12 @@ export async function action({ request, params }: Route.ActionArgs) {
       })
       .catch((error) => {
         console.error(error);
-        throwErrorResponse(error, "Could not delete batch");
+        throwErrorResponse(error, "Dönem silinemedi");
       });
   } else {
     throwErrorResponse(
       new Error("Missing confirmation"),
-      "Please check the box if you really want to delete the batch",
+      "Dönemi gerçekten silmek istiyorsan kutuyu işaretle",
     );
   }
 
@@ -108,10 +108,10 @@ export default function DeleteBatchDialog({
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Delete batch</DialogTitle>
+          <DialogTitle>Dönemi sil</DialogTitle>
           <DialogDescription>
-            Please check if you want to delete the batch and all the
-            certificates in this batch.
+            Bu dönemi ve içindeki tüm sertifikaları silmek istediğini
+            onaylamak için kutuyu işaretle.
           </DialogDescription>
         </DialogHeader>
         <Form method="POST" ref={formRef} className="flex gap-2 items-center">
@@ -125,25 +125,25 @@ export default function DeleteBatchDialog({
             }
           />
           <Label htmlFor="confirm">
-            Delete {batch._count.certificates} certificate{batch._count.certificates === 1 ? "" : "s"} and the batch.
+            {batch._count.certificates} sertifikayı ve dönemi sil.
           </Label>
         </Form>
         <p className="text-sm text-muted-foreground">
-          Deleting the certificates cannot be undone. Certificates that have
-          been shared cannot be verified anymore when they are deleted.
+          Sertifikaların silinmesi geri alınamaz. Paylaşılmış sertifikalar
+          silindiğinde artık doğrulanamaz.
         </p>
         <DialogFooter className="flex justify-between">
           <Link
             to={`/org/program/${params.programId}/batch/${params.batchId}/certificates`}
           >
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline">İptal</Button>
           </Link>
           <Button
             onClick={() => formRef.current?.submit()}
             variant="destructive"
             disabled={!isConfirmed}
           >
-            <Trash2Icon /> Delete batch
+            <Trash2Icon /> Dönemi sil
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -161,7 +161,7 @@ export function ErrorBoundary() {
     const routeError = error as ErrorResponse;
     if (routeError.statusText.includes("P2003")) {
       additionalInfo =
-        " Please delete all the certificates first before deleting the batch.";
+        " Dönemi silmeden önce lütfen tüm sertifikaları sil.";
     }
   }
 
@@ -186,9 +186,9 @@ export function ErrorBoundary() {
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Error</DialogTitle>
+          <DialogTitle>Hata</DialogTitle>
           <DialogDescription>
-            The batch could not be deleted.
+            Dönem silinemedi.
             {additionalInfo}
           </DialogDescription>
         </DialogHeader>
@@ -199,7 +199,7 @@ export function ErrorBoundary() {
               navigate(-2);
             }}
           >
-            Understood
+            Anladım
           </Button>
         </DialogFooter>
       </DialogContent>

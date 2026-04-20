@@ -56,12 +56,12 @@ export function ErrorBoundary() {
   } else if (error instanceof Error) {
     errorInfo = (
       <div>
-        <h1>Error</h1>
+        <h1>Hata</h1>
         <p>{error.message}</p>
       </div>
     );
   } else {
-    errorInfo = <h1>Unknown Error</h1>;
+    errorInfo = <h1>Bilinmeyen Hata</h1>;
   }
 
   return (

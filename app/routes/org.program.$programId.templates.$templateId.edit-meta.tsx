@@ -142,10 +142,10 @@ export default function EditTemplateDialog({
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Template settings</DialogTitle>
+          <DialogTitle>Şablon ayarları</DialogTitle>
           <DialogDescription>
-            Change the template information as needed. Do not forget to refresh
-            the certificates afterwards.
+            Şablon bilgilerini gerektiği gibi değiştir. Ardından sertifikaları
+            yenilemeyi unutma.
           </DialogDescription>
         </DialogHeader>
         <Form
@@ -154,13 +154,13 @@ export default function EditTemplateDialog({
           ref={formRef}
           className="grid gap-4 py-4"
         >
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name">Ad</Label>
           <Input id="name" name="name" defaultValue={template.name} />
 
-          <Label htmlFor="locale">Date format</Label>
+          <Label htmlFor="locale">Tarih biçimi</Label>
           <Select name="locale" defaultValue={template.locale}>
             <SelectTrigger id="locale">
-              <SelectValue placeholder="Select a date format" />
+              <SelectValue placeholder="Bir tarih biçimi seç" />
             </SelectTrigger>
             <SelectContent>
               {locales.map((locale) => (
@@ -171,7 +171,7 @@ export default function EditTemplateDialog({
             </SelectContent>
           </Select>
 
-          <Label htmlFor="pdf">Replace PDF template</Label>
+          <Label htmlFor="pdf">PDF şablonunu değiştir</Label>
           <Input id="pdf" name="pdf" type="file" accept="application/pdf" />
         </Form>
         <DialogFooter>
@@ -186,11 +186,11 @@ export default function EditTemplateDialog({
                   <Trash2Icon />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="top">Delete this template</TooltipContent>
+              <TooltipContent side="top">Bu şablonu sil</TooltipContent>
             </Tooltip>
           </Form>
           <Button onClick={() => formRef.current?.submit()}>
-            Save changes
+            Değişiklikleri Kaydet
           </Button>
         </DialogFooter>
       </DialogContent>

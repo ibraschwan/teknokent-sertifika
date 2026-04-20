@@ -22,7 +22,7 @@ import { getProgramsByAdmin } from "~/lib/program.server";
 import { createUserInvitation } from "~/lib/user.server";
 
 export function meta() {
-  return [{ title: "Invite Admin" }];
+  return [{ title: "Yönetici Davet Et" }];
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -105,33 +105,33 @@ export default function InviteAdminDialog({
       <DialogContent className="sm:max-w-[625px]">
         <Form method="POST">
           <DialogHeader>
-            <DialogTitle>Invite admin</DialogTitle>
+            <DialogTitle>Yönetici davet et</DialogTitle>
             <DialogDescription>
-              Here you can invite someone to become an administrator for this
-              organisation.
+              Burada birini bu kurumun yöneticisi olması için davet
+              edebilirsin.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <Label htmlFor="firstName">First name</Label>
+            <Label htmlFor="firstName">Ad</Label>
             <Input id="firstName" name="firstName" />
-            <Label htmlFor="lastName">Last name</Label>
+            <Label htmlFor="lastName">Soyad</Label>
             <Input id="lastName" name="lastName" />
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">E-posta</Label>
             <Input id="email" name="email" type="email" />
           </div>
 
           {/* @todo add selection of programs for permissions grants (also add to prisma spec) */}
           <Label className="flex flex-col flex-1 leading-6 mb-1">
-            Program access
+            Program erişimi
             <span className="text-muted-foreground font-normal">
-              Please select the programs they will be able to manage
+              Lütfen yönetebilecekleri programları seç
             </span>
           </Label>
           <MultiSelect
             options={programList}
             onValueChange={setSelectedPrograms}
             defaultValue={selectedPrograms}
-            placeholder="Select programs"
+            placeholder="Program seç"
             variant="inverted"
             animation={0}
             maxCount={3}
@@ -143,7 +143,7 @@ export default function InviteAdminDialog({
           />
 
           <DialogFooter className="pt-4">
-            <Button type="submit">Send Invite</Button>
+            <Button type="submit">Daveti Gönder</Button>
           </DialogFooter>
         </Form>
       </DialogContent>

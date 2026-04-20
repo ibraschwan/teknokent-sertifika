@@ -71,11 +71,11 @@ function Toolbar({
           <TooltipTrigger asChild>
             <TextInitial className="size-4 mr-3" />
           </TooltipTrigger>
-          <TooltipContent side="top">Textblock</TooltipContent>
+          <TooltipContent side="top">Metin bloğu</TooltipContent>
         </Tooltip>
         <InputTiny
           label="X"
-          tooltip="X position (in points)"
+          tooltip="X konumu (nokta)"
           inputMode="numeric"
           value={settings.x}
           onChange={(event) => {
@@ -85,7 +85,7 @@ function Toolbar({
         />
         <InputTiny
           label="Y"
-          tooltip="Y position (in points) from bottom"
+          tooltip="Alttan Y konumu (nokta)"
           inputMode="numeric"
           value={settings.y}
           onChange={(event) => {
@@ -95,7 +95,7 @@ function Toolbar({
         />
         <InputTiny
           label="W"
-          tooltip="Max width (optional)"
+          tooltip="Maksimum genişlik (isteğe bağlı)"
           inputMode="numeric"
           value={settings.maxWidth}
           onChange={(event) => {
@@ -116,7 +116,7 @@ function Toolbar({
                   style={{ backgroundColor: `#${color}` }}
                 ></div>
               </TooltipTrigger>
-              <TooltipContent side="top">Text color</TooltipContent>
+              <TooltipContent side="top">Metin rengi</TooltipContent>
             </Tooltip>
           </PopoverTrigger>
           <PopoverContent className="w-auto rounded-2xl flex flex-col gap-2">
@@ -149,7 +149,7 @@ function Toolbar({
         </Popover>
         <InputTiny
           label={<FontSizeIcon />}
-          tooltip="Font size"
+          tooltip="Yazı boyutu"
           inputMode="numeric"
           value={settings.size}
           onChange={(event) => {
@@ -158,7 +158,7 @@ function Toolbar({
         />
         <InputTiny
           label={<LineHeightIcon />}
-          tooltip="Line height (optional)"
+          tooltip="Satır yüksekliği (isteğe bağlı)"
           inputMode="numeric"
           value={settings.lineHeight}
           onChange={(event) => {
@@ -184,21 +184,21 @@ function Toolbar({
         >
           <ToggleGroupItem
             value="left"
-            aria-label="Toggle align left"
+            aria-label="Sola hizala"
             className="data-[state=on]:text-primary data-[state=off]:text-muted-foreground"
           >
             <AlignLeft />
           </ToggleGroupItem>
           <ToggleGroupItem
             value="center"
-            aria-label="Toggle align center"
+            aria-label="Ortaya hizala"
             className="data-[state=on]:text-primary data-[state=off]:text-muted-foreground"
           >
             <AlignCenter />
           </ToggleGroupItem>
           <ToggleGroupItem
             value="right"
-            aria-label="Toggle align right"
+            aria-label="Sağa hizala"
             className="data-[state=off]:text-muted-foreground"
           >
             <AlignRight />
@@ -211,7 +211,7 @@ function Toolbar({
             <Trash2 />
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="top">Remove block</TooltipContent>
+        <TooltipContent side="top">Bloğu kaldır</TooltipContent>
       </Tooltip>
     </div>
   );
@@ -263,100 +263,100 @@ function TextRow({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Add variable</DropdownMenuLabel>
+            <DropdownMenuLabel>Değişken ekle</DropdownMenuLabel>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger>Batch</DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger>Dönem</DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{batch.name}")}
                   >
-                    Name
+                    Ad
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{batch.startDate}")}
                   >
-                    Start date
+                    Başlangıç tarihi
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{batch.endDate}")}
                   >
-                    End date
+                    Bitiş tarihi
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{batch.signatureDate}")}
                   >
-                    Signature date
+                    İmza tarihi
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{batch.signatureDateLong}")}
                   >
-                    Signature date (long)
+                    İmza tarihi (uzun)
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger>Certificate</DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger>Sertifika</DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{certificate.fullName}")}
                   >
-                    Full Name
+                    Ad Soyad
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{certificate.firstName}")}
                   >
-                    First Name
+                    Ad
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{certificate.lastName}")}
                   >
-                    Last Name
+                    Soyad
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{certificate.teamName}")}
                   >
-                    Team Name
+                    Takım Adı
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{certificate.id}")}
                   >
-                    Unique ID
+                    Benzersiz Kimlik
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onSelect={() => addVariable("{certificate.fullNameCaps}")}
                   >
-                    FULL NAME
+                    AD SOYAD
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{certificate.firstNameCaps}")}
                   >
-                    FIRST NAME
+                    AD
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{certificate.firstNameCaps}")}
                   >
-                    LAST NAME
+                    SOYAD
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger>Date</DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger>Tarih</DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{datetime.currentDate}")}
                   >
-                    Current date
+                    Bugünkü tarih
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={() => addVariable("{datetime.currentMonth}")}
                   >
-                    Current month
+                    Bu ay
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
@@ -377,7 +377,7 @@ function TextRow({
           }}
         >
           <SelectTrigger className="w-full" size="compact">
-            <SelectValue placeholder="Select typeface" />
+            <SelectValue placeholder="Yazı tipi seç" />
           </SelectTrigger>
           <SelectContent>
             {fonts.map((font: Typeface) => (
@@ -401,7 +401,7 @@ function TextRow({
               <Trash2 />
             </Button>
           </TooltipTrigger>
-          <TooltipContent side="top">Remove segment</TooltipContent>
+          <TooltipContent side="top">Segmenti kaldır</TooltipContent>
         </Tooltip>
       </td>
     </tr>
@@ -483,7 +483,7 @@ function TextBlock({
           });
         }}
       >
-        <PlusIcon className="mr-2" /> Add text segment
+        <PlusIcon className="mr-2" /> Metin segmenti ekle
       </Button>
     </div>
   );
@@ -536,7 +536,7 @@ export function LayoutEditor({
           onChange(updateLayout);
         }}
       >
-        <SquarePlus className="mr-2" /> Add text block
+        <SquarePlus className="mr-2" /> Metin bloğu ekle
       </Button>
     </div>
   );

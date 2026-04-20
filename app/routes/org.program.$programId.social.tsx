@@ -28,7 +28,7 @@ function calculateCertificateHeight(width: number, top: number) {
 }
 
 export function meta() {
-  return [{ title: "Social Preview" }];
+  return [{ title: "Sosyal Önizleme" }];
 }
 
 export async function loader({ request, params }: Route.LoaderArgs) {
@@ -102,7 +102,7 @@ export default function ProgramSocialPage({
       {social && (
         <Form action="delete" method="POST">
           <Button variant="outline" type="submit">
-            <Trash2 /> Remove Social Preview
+            <Trash2 /> Sosyal Önizlemeyi Kaldır
           </Button>
         </Form>
       )}
@@ -110,19 +110,19 @@ export default function ProgramSocialPage({
         <Card className="max-w-[650px]">
           <CardHeader>
             <CardTitle className="text-xl">
-              Firstname Lastname is certified by {program.name}
+              Ad Soyad, {program.name} tarafından sertifikalandırıldı
             </CardTitle>
             <CardDescription>
               {program.achievement ??
-                "[Please add a description of the achievement in the program settings.]"}
+                "[Lütfen program ayarlarından başarıya ilişkin bir açıklama ekleyin.]"}
             </CardDescription>
           </CardHeader>
           <CardContent>
             {!social ? (
               <div className="w-full max-w-[600px] aspect-[1.91/1] flex border border-dashed border-slate-500 justify-center items-center bg-muted p-8">
-                Please upload the background layer for the social media preview.
-                Image formats PNG and JPEG are supported. Image size should be
-                1200 x 630 pixels.
+                Lütfen sosyal medya önizlemesi için arka plan katmanını yükle.
+                PNG ve JPEG görsel formatları desteklenmektedir. Görsel boyutu
+                1200 x 630 piksel olmalıdır.
               </div>
             ) : (
               <img
@@ -130,7 +130,7 @@ export default function ProgramSocialPage({
                   previewWithPhoto ? "&withPhoto=1" : ""
                 }`}
                 className="w-full max-w-[600px] aspect-[1.91/1]"
-                alt="Social media preview for shared certificates"
+                alt="Paylaşılan sertifikalar için sosyal medya önizlemesi"
               />
             )}
           </CardContent>
@@ -158,15 +158,15 @@ export default function ProgramSocialPage({
                 disabled={fetcherImage.state !== "idle"}
               >
                 <ImageUp />
-                {social ? "Replace" : "Upload"} background image
+                Arka plan görselini {social ? "değiştir" : "yükle"}
               </Button>
               <p className="text-xs text-muted-foreground mt-1 text-center">
                 {" "}
-                1200x630 pixel, PNG or JPEG
+                1200x630 piksel, PNG veya JPEG
               </p>
             </fetcherImage.Form>
             <div className="flex flex-row justify-between items-center">
-              <Label htmlFor="previewWithPhoto">Preview with Photo</Label>
+              <Label htmlFor="previewWithPhoto">Fotoğraflı Önizleme</Label>
               <Switch
                 id="previewWithPhoto"
                 checked={previewWithPhoto}
@@ -174,11 +174,11 @@ export default function ProgramSocialPage({
               />
             </div>
             <div className="flex flex-col gap-2">
-              <Label>Photo position</Label>
+              <Label>Fotoğraf konumu</Label>
               <div className="flex flex-row gap-2">
                 <InputTiny
                   label="X"
-                  tooltip="X position (in pixel) from left"
+                  tooltip="Soldan X konumu (piksel)"
                   inputMode="numeric"
                   value={layout.photo.x}
                   onChange={(event) => {
@@ -192,7 +192,7 @@ export default function ProgramSocialPage({
                 />
                 <InputTiny
                   label="Y"
-                  tooltip="Y position (in pixel) from top"
+                  tooltip="Üstten Y konumu (piksel)"
                   inputMode="numeric"
                   value={layout.photo.y}
                   onChange={(event) => {
@@ -206,7 +206,7 @@ export default function ProgramSocialPage({
                 />
                 <InputTiny
                   label="W"
-                  tooltip="Width and height (in pixel)"
+                  tooltip="Genişlik ve yükseklik (piksel)"
                   inputMode="numeric"
                   value={layout.photo.size}
                   onChange={(event) => {
@@ -221,11 +221,11 @@ export default function ProgramSocialPage({
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <Label>Certificate position (with photo)</Label>
+              <Label>Sertifika konumu (fotoğraflı)</Label>
               <div className="flex flex-row gap-2">
                 <InputTiny
                   label="X"
-                  tooltip="X position (in pixel) from left"
+                  tooltip="Soldan X konumu (piksel)"
                   inputMode="numeric"
                   value={layout.certificate.withPhoto.x}
                   onChange={(event) => {
@@ -240,7 +240,7 @@ export default function ProgramSocialPage({
                 />
                 <InputTiny
                   label="Y"
-                  tooltip="Y position (in pixel) from top"
+                  tooltip="Üstten Y konumu (piksel)"
                   inputMode="numeric"
                   value={layout.certificate.withPhoto.y}
                   onChange={(event) => {
@@ -259,7 +259,7 @@ export default function ProgramSocialPage({
                 />
                 <InputTiny
                   label="W"
-                  tooltip="Width (in pixel)"
+                  tooltip="Genişlik (piksel)"
                   inputMode="numeric"
                   value={layout.certificate.withPhoto.w}
                   onChange={(event) => {
@@ -279,11 +279,11 @@ export default function ProgramSocialPage({
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <Label>Certificate position (without photo)</Label>
+              <Label>Sertifika konumu (fotoğrafsız)</Label>
               <div className="flex flex-row gap-2">
                 <InputTiny
                   label="X"
-                  tooltip="X position (in pixel) from left"
+                  tooltip="Soldan X konumu (piksel)"
                   inputMode="numeric"
                   value={layout.certificate.noPhoto.x}
                   onChange={(event) => {
@@ -298,7 +298,7 @@ export default function ProgramSocialPage({
                 />
                 <InputTiny
                   label="Y"
-                  tooltip="Y position (in pixel) from top"
+                  tooltip="Üstten Y konumu (piksel)"
                   inputMode="numeric"
                   value={layout.certificate.noPhoto.y}
                   onChange={(event) => {
@@ -317,7 +317,7 @@ export default function ProgramSocialPage({
                 />
                 <InputTiny
                   label="W"
-                  tooltip="Width (in pixel)"
+                  tooltip="Genişlik (piksel)"
                   inputMode="numeric"
                   value={layout.certificate.noPhoto.w}
                   onChange={(event) => {
@@ -349,7 +349,7 @@ export default function ProgramSocialPage({
               />
               <Button type="submit" disabled={fetcherLayout.state !== "idle"}>
                 <Paintbrush />
-                Update layout
+                Yerleşimi güncelle
               </Button>
             </fetcherLayout.Form>
           </CardContent>

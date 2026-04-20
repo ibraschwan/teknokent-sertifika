@@ -24,7 +24,7 @@ import { requireAdmin } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta({ data }: Route.MetaArgs) {
-  return [{ title: `${data?.program?.name} Batches` }];
+  return [{ title: `${data?.program?.name} Dönemleri` }];
 }
 
 export async function loader({ request, params }: Route.LoaderArgs) {
@@ -93,7 +93,7 @@ export default function BatchPage({
             onValueChange={handleBatchSelect}
           >
             <SelectTrigger className="w-[280px] [&>span]:line-clamp-none">
-              <SelectValue placeholder="Select a Batch" asChild>
+              <SelectValue placeholder="Bir dönem seç" asChild>
                 <div className="flex gap-2 text-left items-center">
                   {currentBatch?.name}
                   <div className="text-xs text-muted-foreground">
@@ -129,30 +129,30 @@ export default function BatchPage({
               <Button variant="outline" size="icon" asChild>
                 <Link
                   to={`${currentBatch.id}/edit`}
-                  aria-label="Edit batch settings"
+                  aria-label="Dönem ayarlarını düzenle"
                 >
                   <Settings />
                 </Link>
               </Button>
             </TooltipTrigger>
-            <TooltipContent side="top">Edit batch settings</TooltipContent>
+            <TooltipContent side="top">Dönem ayarlarını düzenle</TooltipContent>
           </Tooltip>
         )}
 
         <Button variant="outline" asChild>
-          <Link to="create">Add Batch</Link>
+          <Link to="create">Dönem Ekle</Link>
         </Button>
 
         {currentBatch && (
           <>
             <Button variant="outline" asChild>
               <Link to={`${params.batchId}/certificates/create`}>
-                Add Certificate
+                Sertifika Ekle
               </Link>
             </Button>
 
             <Button variant="outline" asChild>
-              <Link to={`${params.batchId}/import`}>Import Certificates</Link>
+              <Link to={`${params.batchId}/import`}>Sertifikaları İçe Aktar</Link>
             </Button>
 
             <Button variant="outline" asChild>
@@ -161,21 +161,21 @@ export default function BatchPage({
                 className="mr-4"
                 reloadDocument
               >
-                Download Certificates
+                Sertifikaları İndir
               </Link>
             </Button>
           </>
         )}
 
         {program.batches.length === 0 && (
-          <div>No batches added yet. Create your first batch.</div>
+          <div>Henüz dönem eklenmemiş. İlk dönemini oluştur.</div>
         )}
       </div>
 
       {program.batches.length === 0 && (
         <div className="text-muted-foreground">
-          Certificates are organized in batches. Start by adding your first
-          batch.
+          Sertifikalar dönemler halinde düzenlenir. İlk dönemini ekleyerek
+          başla.
         </div>
       )}
 

@@ -175,11 +175,11 @@ export default function DuplicateTemplateDialog({
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Duplicate template</DialogTitle>
+          <DialogTitle>Şablonu çoğalt</DialogTitle>
           <DialogDescription>
-            A new template with all the settings from the currently selected
-            template will be created. You can select a new PDF file as a
-            replacement or leave it empty to use the existing PDF.
+            Şu anda seçili şablondaki tüm ayarlarla yeni bir şablon
+            oluşturulacak. Yedek olarak yeni bir PDF dosyası seçebilir ya da
+            mevcut PDF'i kullanmak için boş bırakabilirsin.
           </DialogDescription>
         </DialogHeader>
         <Form
@@ -188,13 +188,13 @@ export default function DuplicateTemplateDialog({
           ref={formRef}
           className="grid gap-4 py-4"
         >
-          <Label htmlFor="name">Name</Label>
-          <Input id="name" name="name" defaultValue={`${template.name} copy`} />
+          <Label htmlFor="name">Ad</Label>
+          <Input id="name" name="name" defaultValue={`${template.name} kopya`} />
 
-          <Label htmlFor="locale">Date format</Label>
+          <Label htmlFor="locale">Tarih biçimi</Label>
           <Select name="locale" defaultValue={template.locale}>
             <SelectTrigger id="locale">
-              <SelectValue placeholder="Select a date format" />
+              <SelectValue placeholder="Bir tarih biçimi seç" />
             </SelectTrigger>
             <SelectContent>
               {locales.map((locale) => (
@@ -205,15 +205,15 @@ export default function DuplicateTemplateDialog({
             </SelectContent>
           </Select>
 
-          <Label htmlFor="pdf">Replace PDF template</Label>
+          <Label htmlFor="pdf">PDF şablonunu değiştir</Label>
           <Input id="pdf" name="pdf" type="file" accept="application/pdf" />
         </Form>
         <DialogFooter>
           <Button variant="outline" onClick={() => navigate(-1)}>
-            Back
+            Geri
           </Button>
           <Button onClick={() => formRef.current?.submit()}>
-            Create duplicate
+            Kopya oluştur
           </Button>
         </DialogFooter>
       </DialogContent>

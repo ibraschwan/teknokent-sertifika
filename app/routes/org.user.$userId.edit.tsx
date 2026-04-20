@@ -21,7 +21,7 @@ import { prisma } from "~/lib/prisma.server";
 import { getProgramsByAdmin } from "~/lib/program.server";
 
 export function meta() {
-  return [{ title: "Edit User" }];
+  return [{ title: "Kullanıcıyı Düzenle" }];
 }
 
 export async function action({ request, params }: Route.ActionArgs) {
@@ -164,19 +164,19 @@ export default function EditUserDialog({ loaderData }: Route.ComponentProps) {
       <DialogContent className="sm:max-w-[625px] pointer-events-auto">
         <Form method="POST">
           <DialogHeader>
-            <DialogTitle>User settings</DialogTitle>
+            <DialogTitle>Kullanıcı ayarları</DialogTitle>
             <DialogDescription>
-              Here you can change the user name or give them admin permissions.
+              Burada kullanıcının adını değiştirebilir veya ona yönetici izinleri verebilirsin.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <Label htmlFor="firstName">First name</Label>
+            <Label htmlFor="firstName">Ad</Label>
             <Input
               id="firstName"
               name="firstName"
               defaultValue={user.firstName}
             />
-            <Label htmlFor="lastName">Last name</Label>
+            <Label htmlFor="lastName">Soyad</Label>
             <Input id="lastName" name="lastName" defaultValue={user.lastName} />
             {admin?.isSuperAdmin && (
               <div className="flex items-end">
@@ -184,9 +184,9 @@ export default function EditUserDialog({ loaderData }: Route.ComponentProps) {
                   htmlFor="isSuperAdmin"
                   className="flex flex-col flex-1 leading-6"
                 >
-                  Super admin permissions
+                  Süper yönetici izinleri
                   <span className="text-muted-foreground font-normal">
-                    Give full access to all organisation and program settings
+                    Tüm kurum ve program ayarlarına tam erişim ver
                   </span>
                 </Label>
                 <Switch
@@ -204,9 +204,9 @@ export default function EditUserDialog({ loaderData }: Route.ComponentProps) {
                 htmlFor="isAdmin"
                 className="flex flex-col flex-1 leading-6"
               >
-                Program manager permissions
+                Program yöneticisi izinleri
                 <span className="text-muted-foreground font-normal">
-                  Super admins automatically have full access to all programs
+                  Süper yöneticiler tüm programlara otomatik olarak tam erişime sahiptir
                 </span>
               </Label>
             ) : (
@@ -216,9 +216,9 @@ export default function EditUserDialog({ loaderData }: Route.ComponentProps) {
                     htmlFor="isAdmin"
                     className="flex flex-col flex-1 leading-6"
                   >
-                    Program manager permissions
+                    Program yöneticisi izinleri
                     <span className="text-muted-foreground font-normal">
-                      Give access to the following programs
+                      Aşağıdaki programlara erişim ver
                     </span>
                   </Label>
                   <Switch
@@ -236,7 +236,7 @@ export default function EditUserDialog({ loaderData }: Route.ComponentProps) {
                       options={programList}
                       onValueChange={setSelectedPrograms}
                       defaultValue={selectedPrograms}
-                      placeholder="Select programs"
+                      placeholder="Program seç"
                       variant="inverted"
                       animation={0}
                       maxCount={3}
@@ -255,7 +255,7 @@ export default function EditUserDialog({ loaderData }: Route.ComponentProps) {
             {/* @todo list of programs the user is managing */}
           </div>
           <DialogFooter className="pt-4">
-            <Button type="submit">Save changes</Button>
+            <Button type="submit">Değişiklikleri kaydet</Button>
           </DialogFooter>
         </Form>
       </DialogContent>

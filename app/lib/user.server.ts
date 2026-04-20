@@ -138,9 +138,9 @@ export const sendVerificationEmail = async (user: User) => {
   await sendEmail({
     from: `${org.senderName ?? "Please configure in organisation settings"} <${org.senderEmail ?? "email-not-configured@example.com"}>`,
     to: user.email,
-    subject: `Please verify your email`,
-    text: `Dear ${user.firstName} ${user.lastName},\n\nTo complete your sign up for ${org.name} Certificates, please click on the following link:\n${verificationUrl}\n\nIf you haven't signed up yourself, please ignore or report this email.\n\nThank you!`,
-    html: `<p>Dear ${user.firstName} ${user.lastName},</p><p>To complete your sign up for ${org.name} Certificates, please click on the following link:<br /><a href="${verificationUrl}">${verificationUrl}</a></p><p>If you haven't signed up yourself, please ignore or report this email.</p><p>Thank you!</p>`,
+    subject: `Lütfen e-postanı doğrula`,
+    text: `Sevgili ${user.firstName} ${user.lastName},\n\n${org.name} Sertifikaları için kaydını tamamlamak için lütfen aşağıdaki bağlantıya tıkla:\n${verificationUrl}\n\nKaydı sen yapmadıysan lütfen bu e-postayı yok say veya bildir.\n\nTeşekkürler!`,
+    html: `<p>Sevgili ${user.firstName} ${user.lastName},</p><p>${org.name} Sertifikaları için kaydını tamamlamak için lütfen aşağıdaki bağlantıya tıkla:<br /><a href="${verificationUrl}">${verificationUrl}</a></p><p>Kaydı sen yapmadıysan lütfen bu e-postayı yok say veya bildir.</p><p>Teşekkürler!</p>`,
   }).catch((error) => {
     throw new Response(error.message, {
       status: 500,
@@ -158,25 +158,25 @@ export const sendInvitationEmail = async (
   // @todo dynamic org name from database
   const acceptUrl = `${domain}/user/accept-invite/${invite.id}/${invite.verifyCode}`;
 
-  const text = `Dear ${invite.firstName} ${invite.lastName},\n\n${
+  const text = `Sevgili ${invite.firstName} ${invite.lastName},\n\n${
     from
-      ? `${from.firstName} ${from.lastName} is inviting you`
-      : "You have been invited"
-  } to become an admiminstrator for the ${
+      ? `${from.firstName} ${from.lastName} seni`
+      : "Seni"
+  } ${
     org.name
-  } certificates tool.\n\nTo accept the invitation, please click on the following link:\n${acceptUrl}\n\nThank you!`;
-  const html = `<p>Dear ${invite.firstName} ${invite.lastName},</p><p>${
+  } sertifika aracında yönetici olmaya davet ediyor.\n\nDaveti kabul etmek için lütfen aşağıdaki bağlantıya tıkla:\n${acceptUrl}\n\nTeşekkürler!`;
+  const html = `<p>Sevgili ${invite.firstName} ${invite.lastName},</p><p>${
     from
-      ? `${from.firstName} ${from.lastName} is inviting you`
-      : "You have been invited"
-  } to become an admiminstrator for the ${
+      ? `${from.firstName} ${from.lastName} seni`
+      : "Seni"
+  } ${
     org.name
-  } certificates tool.</p><p>To accept the invitation, please click on the following link:<br /><a href="${acceptUrl}">${acceptUrl}</a></p><p>Thank you!</p>`;
+  } sertifika aracında yönetici olmaya davet ediyor.</p><p>Daveti kabul etmek için lütfen aşağıdaki bağlantıya tıkla:<br /><a href="${acceptUrl}">${acceptUrl}</a></p><p>Teşekkürler!</p>`;
 
   await sendEmail({
     from: `${org.senderName ?? "Please configure in organisation settings"} <${org.senderEmail ?? "email-not-configured@example.com"}>`,
     to: invite.email,
-    subject: `You have been invited to ${org.name} Certificates`,
+    subject: `${org.name} Sertifikaları'na davet edildin`,
     text,
     html,
   }).catch((error) => {

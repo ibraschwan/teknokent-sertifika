@@ -25,7 +25,7 @@ import { requireAdmin } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta({ data }: Route.MetaArgs) {
-  return [{ title: `${data?.program?.name} Templates` }];
+  return [{ title: `${data?.program?.name} Şablonları` }];
 }
 
 export async function loader({ request, params }: Route.LoaderArgs) {
@@ -93,7 +93,7 @@ export default function ProgramTemplatesPage({
             onValueChange={handleTemplateSelect}
           >
             <SelectTrigger className="w-[280px]">
-              <SelectValue placeholder="Select a template" />
+              <SelectValue placeholder="Bir şablon seç" />
             </SelectTrigger>
             <SelectContent>
               {program.templates.map((template: Template) => (
@@ -111,33 +111,33 @@ export default function ProgramTemplatesPage({
               <Button variant="outline" size="icon" asChild>
                 <Link
                   to={`${params.templateId}/edit-meta`}
-                  aria-label="Edit template settings"
+                  aria-label="Şablon ayarlarını düzenle"
                 >
                   <Settings />
                 </Link>
               </Button>
             </TooltipTrigger>
-            <TooltipContent side="top">Edit template settings</TooltipContent>
+            <TooltipContent side="top">Şablon ayarlarını düzenle</TooltipContent>
           </Tooltip>
         )}
 
         {params.templateId && (
           <Button variant="outline" asChild>
             <Link to={`${params.templateId}/duplicate`}>
-              Duplicate template
+              Şablonu çoğalt
             </Link>
           </Button>
         )}
 
         <Button variant="outline" asChild>
-          <Link to="create">Add template</Link>
+          <Link to="create">Şablon ekle</Link>
         </Button>
       </div>
 
       {program.templates.length === 0 && (
         <p>
-          Certificates are based on PDF templates. Start by uploading your first
-          PDF template.
+          Sertifikalar PDF şablonlarına dayanır. İlk PDF şablonunu yükleyerek
+          başla.
         </p>
       )}
 

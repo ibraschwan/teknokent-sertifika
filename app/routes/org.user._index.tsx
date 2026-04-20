@@ -22,7 +22,7 @@ import { requireSuperAdmin } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta() {
-  return [{ title: "User" }];
+  return [{ title: "Kullanıcı" }];
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -118,7 +118,7 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
     <div className="flex flex-col gap-4">
       <div>
         <Button asChild>
-          <Link to="invite">Invite Admin</Link>
+          <Link to="invite">Yönetici Davet Et</Link>
         </Button>
       </div>
       <Table>
@@ -136,7 +136,7 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
                 className="pl-0"
                 onClick={() => onSetSort("name")}
               >
-                Name {searchParams.get("sort") === "name" && <ArrowDown />}
+                Ad Soyad {searchParams.get("sort") === "name" && <ArrowDown />}
               </Button>
             </TableHead>
             <TableHead className="font-medium">
@@ -145,7 +145,7 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
                 className="pl-0"
                 onClick={() => onSetSort("email")}
               >
-                Email {searchParams.get("sort") === "email" && <ArrowDown />}
+                E-posta {searchParams.get("sort") === "email" && <ArrowDown />}
               </Button>
             </TableHead>
             <TableHead>
@@ -154,11 +154,11 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
                 className="pl-0"
                 onClick={() => onSetSort("permission")}
               >
-                Permissions{" "}
+                İzinler{" "}
                 {searchParams.get("sort") === "permission" && <ArrowDown />}
               </Button>
             </TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>İşlemler</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -168,17 +168,17 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
                 {invite.firstName} {invite.lastName}
               </TableCell>
               <TableCell className="font-medium">{invite.email}</TableCell>
-              <TableCell>Invite pending…</TableCell>
+              <TableCell>Davet bekleniyor…</TableCell>
               <TableCell className="text-foreground">
                 <Form action={`invite/${invite.id}/delete`} method="POST">
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button variant="outline">
-                        <Trash2Icon /> Cancel
+                        <Trash2Icon /> İptal
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent side="top">
-                      Cancel invitation
+                      Daveti iptal et
                     </TooltipContent>
                   </Tooltip>
                 </Form>
@@ -195,14 +195,14 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
               </TableCell>
               <TableCell className="align-top py-4">
                 {u.isSuperAdmin ? (
-                  "Super Admin"
+                  "Süper Yönetici"
                 ) : u.isAdmin ? (
                   <>
-                    <b>Program Manager</b>:{" "}
+                    <b>Program Yöneticisi</b>:{" "}
                     {u.adminOfPrograms.map((p) => p.name).join(", ")}
                   </>
                 ) : (
-                  "View Certificates"
+                  "Sertifikaları Görüntüle"
                 )}
               </TableCell>
               <TableCell>
@@ -210,12 +210,12 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button variant="outline" asChild>
-                      <Link to={`${u.id}/edit`} aria-label="Edit user settings">
-                        <Settings /> Edit
+                      <Link to={`${u.id}/edit`} aria-label="Kullanıcı ayarlarını düzenle">
+                        <Settings /> Düzenle
                       </Link>
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent side="top">Edit user settings</TooltipContent>
+                  <TooltipContent side="top">Kullanıcı ayarlarını düzenle</TooltipContent>
                 </Tooltip>
               </TableCell>
             </TableRow>
@@ -223,7 +223,7 @@ export default function UserIndexPage({ loaderData }: Route.ComponentProps) {
           {user.length === 0 && (
             <TableRow>
               <TableCell colSpan={5} className="text-destructive">
-                No user in the database.
+                Veritabanında kullanıcı yok.
               </TableCell>
             </TableRow>
           )}

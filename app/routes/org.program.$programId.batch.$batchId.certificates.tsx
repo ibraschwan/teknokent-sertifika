@@ -37,7 +37,7 @@ import { prisma } from "~/lib/prisma.server";
 import { AsyncAction } from "~/components/async-action";
 
 export function meta() {
-  return [{ title: "Certificates" }];
+  return [{ title: "Sertifikalar" }];
 }
 
 export async function loader({ request, params }: Route.LoaderArgs) {
@@ -96,12 +96,12 @@ export default function BatchCertificatesPage({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead className="font-medium">Email</TableHead>
-            <TableHead>Team</TableHead>
+            <TableHead>Ad Soyad</TableHead>
+            <TableHead className="font-medium">E-posta</TableHead>
+            <TableHead>Takım</TableHead>
             <TableHead>
               <div className="flex items-center">
-                Template&emsp;
+                Şablon&emsp;
                 {certificatesNeedsRefresh > 0 && (
                   <Tooltip>
                     <TooltipTrigger>
@@ -110,14 +110,14 @@ export default function BatchCertificatesPage({
                       </Badge>
                     </TooltipTrigger>
                     <TooltipContent side="top">
-                      {certificatesNeedsRefresh} certificates need to be
-                      refreshed
+                      {certificatesNeedsRefresh} sertifikanın yenilenmesi
+                      gerekiyor
                     </TooltipContent>
                   </Tooltip>
                 )}
               </div>
             </TableHead>
-            <TableHead colSpan={2}>Actions</TableHead>
+            <TableHead colSpan={2}>İşlemler</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -131,12 +131,12 @@ export default function BatchCertificatesPage({
                 </TableCell>
                 <TableCell className="font-medium">{cert.email}</TableCell>
                 <TableCell>
-                  {cert.teamName || <Badge variant="outline">empty</Badge>}
+                  {cert.teamName || <Badge variant="outline">boş</Badge>}
                 </TableCell>
                 <TableCell>
                   <div className="flex gap-4 items-center">
                     {template?.name || (
-                      <Badge variant="destructive">not found</Badge>
+                      <Badge variant="destructive">bulunamadı</Badge>
                     )}
                     {template?.updatedAt &&
                       template?.updatedAt > cert.updatedAt && (
@@ -152,7 +152,7 @@ export default function BatchCertificatesPage({
                           <Button variant="outline" className="w-12" asChild>
                             <Link
                               to={`${cert.id}/edit`}
-                              aria-label="Edit certificate"
+                              aria-label="Sertifikayı düzenle"
                               preventScrollReset
                             >
                               <Settings />
@@ -160,7 +160,7 @@ export default function BatchCertificatesPage({
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent side="top">
-                          Edit certificate
+                          Sertifikayı düzenle
                         </TooltipContent>
                       </Tooltip>
                       <DropdownMenu>
@@ -180,10 +180,10 @@ export default function BatchCertificatesPage({
                                   type="submit"
                                   className="flex flex-col items-start text-left"
                                 >
-                                  <b>Refresh certificate</b>
+                                  <b>Sertifikayı yenile</b>
                                   <div className="text-sm text-muted-foreground">
-                                    Update template and variables to current
-                                    values.
+                                    Şablon ve değişkenleri güncel değerlere
+                                    güncelle.
                                   </div>
                                 </button>
                               </AsyncAction>
@@ -194,7 +194,7 @@ export default function BatchCertificatesPage({
                     </div>
                     <Button variant="outline" asChild>
                       <Link to={`${cert.id}/preview`}>
-                        <Eye /> Preview
+                        <Eye /> Önizleme
                       </Link>
                     </Button>
                   </div>
@@ -222,20 +222,20 @@ export default function BatchCertificatesPage({
           {templates.length === 0 && (
             <TableRow>
               <TableCell colSpan={5} className="text-destructive">
-                No PDF templates configured yet. Please{" "}
+                Henüz PDF şablonu tanımlanmamış. Önce{" "}
                 <Link
                   to={`/org/program/${programId}/templates`}
                   className="underline"
                 >
-                  add a template
-                </Link>{" "}
-                first.
+                  bir şablon ekle
+                </Link>
+                .
               </TableCell>
             </TableRow>
           )}
           {certificates.length === 0 && (
             <TableRow>
-              <TableCell colSpan={5}>No certificates created yet</TableCell>
+              <TableCell colSpan={5}>Henüz sertifika oluşturulmadı</TableCell>
             </TableRow>
           )}
         </TableBody>

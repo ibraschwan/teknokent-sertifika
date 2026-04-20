@@ -19,7 +19,7 @@ import { requireAccessToProgram } from "~/lib/program.server";
 import { createUserInvitation } from "~/lib/user.server";
 
 export function meta() {
-  return [{ title: "Invite Program Manager" }];
+  return [{ title: "Program Yöneticisi Davet Et" }];
 }
 
 export async function action({ request, params }: Route.ActionArgs) {
@@ -73,23 +73,23 @@ export default function InviteAdminDialog() {
       <DialogContent className="sm:max-w-[625px]">
         <Form method="POST">
           <DialogHeader>
-            <DialogTitle>Invite Program Manager</DialogTitle>
+            <DialogTitle>Program Yöneticisi Davet Et</DialogTitle>
             <DialogDescription>
-              Here you can invite someone to become a program manager for{" "}
-              {program.name}.
+              Burada birini {program.name} için program yöneticisi olması için
+              davet edebilirsin.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <Label htmlFor="firstName">First name</Label>
+            <Label htmlFor="firstName">Ad</Label>
             <Input id="firstName" name="firstName" />
-            <Label htmlFor="lastName">Last name</Label>
+            <Label htmlFor="lastName">Soyad</Label>
             <Input id="lastName" name="lastName" />
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">E-posta</Label>
             <Input id="email" name="email" type="email" />
           </div>
 
           <DialogFooter className="pt-4">
-            <Button type="submit">Send Invite</Button>
+            <Button type="submit">Daveti Gönder</Button>
           </DialogFooter>
         </Form>
       </DialogContent>

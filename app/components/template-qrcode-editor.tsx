@@ -39,11 +39,11 @@ function Toolbar({
           <TooltipTrigger asChild>
             <QrCode className="size-4 mr-3" />
           </TooltipTrigger>
-          <TooltipContent side="top">QR Code</TooltipContent>
+          <TooltipContent side="top">QR kodu</TooltipContent>
         </Tooltip>
         <InputTiny
           label="X"
-          tooltip="X position (in points)"
+          tooltip="X konumu (nokta)"
           inputMode="numeric"
           value={settings.x}
           onChange={(event) => {
@@ -52,7 +52,7 @@ function Toolbar({
         />
         <InputTiny
           label="Y"
-          tooltip="Y position (in points) from bottom"
+          tooltip="Alttan Y konumu (nokta)"
           inputMode="numeric"
           value={settings.y}
           onChange={(event) => {
@@ -61,7 +61,7 @@ function Toolbar({
         />
         <InputTiny
           label="W"
-          tooltip="Width"
+          tooltip="Genişlik"
           inputMode="numeric"
           value={settings.width}
           onChange={(event) => {
@@ -81,7 +81,7 @@ function Toolbar({
                   style={{ backgroundColor: `#${color}` }}
                 ></div>
               </TooltipTrigger>
-              <TooltipContent side="top">Fill color</TooltipContent>
+              <TooltipContent side="top">Dolgu rengi</TooltipContent>
             </Tooltip>
           </PopoverTrigger>
           <PopoverContent className="w-auto rounded-2xl flex flex-col gap-2">
@@ -120,7 +120,7 @@ function Toolbar({
                   style={{ backgroundColor: `#${background}` }}
                 ></div>
               </TooltipTrigger>
-              <TooltipContent side="top">Background color</TooltipContent>
+              <TooltipContent side="top">Arka plan rengi</TooltipContent>
             </Tooltip>
           </PopoverTrigger>
           <PopoverContent className="w-auto rounded-2xl flex flex-col gap-2">
@@ -183,7 +183,7 @@ function Toolbar({
           </Button>
         </TooltipTrigger>
         <TooltipContent side="top">
-          {settings.show ? "Hide code" : "Show code"}
+          {settings.show ? "Kodu gizle" : "Kodu göster"}
         </TooltipContent>
       </Tooltip>
     </div>
@@ -202,8 +202,8 @@ export function LayoutQRCodeEditor({
       <div className="flex flex-col gap-2 text-sm rounded-lg border bg-card text-card-foreground shadow-sm">
         <Toolbar settings={qrcode} onChange={onChange} />
         <div className="px-4 pt-1 pb-3 flex items-center gap-2">
-          The QR Code contains the URL leading to the public website for the
-          certificate. It can be used to verify the certificate.
+          QR kodu, sertifikanın herkese açık web sayfasına yönlendiren URL'yi
+          içerir. Sertifikayı doğrulamak için kullanılabilir.
         </div>
       </div>
     </div>

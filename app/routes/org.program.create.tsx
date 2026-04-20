@@ -18,7 +18,7 @@ import { requireAdmin } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta() {
-  const title = `Add Program`;
+  const title = `Program Ekle`;
   return [{ title }, { name: "description", content: "Welcome to Remix!" }];
 }
 
@@ -70,17 +70,17 @@ export default function CreateProgramDialog() {
       <DialogContent className="sm:max-w-[425px]">
         <Form method="POST">
           <DialogHeader>
-            <DialogTitle>Add program</DialogTitle>
+            <DialogTitle>Program ekle</DialogTitle>
             <DialogDescription>
-              Create a new program for this organisation.
+              Bu kurum için yeni bir program oluştur.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">Ad</Label>
             <Input id="name" name="name" />
           </div>
           <DialogFooter>
-            <Button type="submit">Save Program</Button>
+            <Button type="submit">Programı Kaydet</Button>
           </DialogFooter>
         </Form>
       </DialogContent>

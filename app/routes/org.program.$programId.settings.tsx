@@ -13,7 +13,7 @@ import { requireAdminWithProgram } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta() {
-  return [{ title: "Program Settings" }];
+  return [{ title: "Program Ayarları" }];
 }
 
 const allowedUpdateFields = ["name", "achievement", "about", "website"];
@@ -68,17 +68,17 @@ export default function ProgramSettings() {
     <>
       <div className="grid gap-8 py-4 max-w-[625px]">
         <section className="flex flex-col gap-2">
-          <Label htmlFor="name">Program Name</Label>
+          <Label htmlFor="name">Program Adı</Label>
           <FormUpdate key={program.updatedAt}>
             <Input id="name" name="name" defaultValue={program.name} required />
           </FormUpdate>
         </section>
 
         <section className="flex flex-col gap-2">
-          <Label htmlFor="achievement">Achievement</Label>
+          <Label htmlFor="achievement">Başarı</Label>
           <p className="text-sm text-muted-foreground max-w-[500px]">
-            Describe the key achievements the certificate is representing in a
-            few words.
+            Sertifikanın temsil ettiği temel başarıları birkaç kelimeyle
+            açıkla.
           </p>
           <FormUpdate key={program.updatedAt}>
             <Textarea
@@ -90,9 +90,9 @@ export default function ProgramSettings() {
         </section>
 
         <section className="flex flex-col gap-2">
-          <Label htmlFor="about">About the program</Label>
+          <Label htmlFor="about">Program hakkında</Label>
           <p className="text-sm text-muted-foreground max-w-[500px]">
-            Provide a short description of the program.
+            Programın kısa bir açıklamasını gir.
           </p>
 
           <FormUpdate key={program.updatedAt}>
@@ -106,10 +106,10 @@ export default function ProgramSettings() {
         </section>
 
         <section className="flex flex-col gap-2">
-          <Label htmlFor="website">Website</Label>
+          <Label htmlFor="website">Web sitesi</Label>
           <p className="text-sm text-muted-foreground max-w-[500px]">
-            If the program has a website, add the link here. Consider linking
-            directly to the application page.
+            Programın bir web sitesi varsa, bağlantıyı buraya ekle. Doğrudan
+            başvuru sayfasına bağlantı vermeyi değerlendirebilirsin.
           </p>
 
           <FormUpdate key={program.updatedAt}>
@@ -125,9 +125,9 @@ export default function ProgramSettings() {
         <section className="flex flex-col gap-2">
           <Label>Logo</Label>
           <p className="text-sm text-muted-foreground max-w-[500px]">
-            Add the visual logo mark of your program. This needs to be scalable
-            vector image (SVG) and the logo should be placed in the center of a
-            transparent canvas with no additional padding around the edges.
+            Programının görsel logo işaretini ekle. Bu, ölçeklenebilir vektör
+            görseli (SVG) olmalı ve logo, kenarlarında ek boşluk bırakmadan
+            şeffaf bir tuvalin ortasına yerleştirilmelidir.
           </p>
           <div className="flex gap-4 mt-2">
             {/* @todo implement a preview -> save workflow for changing the logo */}
@@ -139,7 +139,7 @@ export default function ProgramSettings() {
                   role="presentation"
                 />
               ) : (
-                "No Logo"
+                "Logo Yok"
               )}
             </div>
             <div className="flex flex-col gap-2 items-stretch">
@@ -163,7 +163,7 @@ export default function ProgramSettings() {
                   className="w-full"
                 >
                   <ImageUp />
-                  {program.logo ? "Replace" : "Upload"} logo
+                  Logoyu {program.logo ? "değiştir" : "yükle"}
                 </Button>
               </fetcherIcon.Form>
               {program.logo && (
@@ -173,7 +173,7 @@ export default function ProgramSettings() {
                   className="flex grow"
                 >
                   <Button type="submit" variant="outline">
-                    <Trash2Icon /> Remove logo
+                    <Trash2Icon /> Logoyu kaldır
                   </Button>
                 </Form>
               )}
@@ -183,15 +183,15 @@ export default function ProgramSettings() {
       </div>
 
       <section className="flex flex-col gap-2 my-16">
-        <Label>Danger Zone</Label>
+        <Label>Tehlikeli Bölge</Label>
         <p className="text-sm text-muted-foreground max-w-[500px]">
-          At the moment, all the certificates and batches inside the program
-          have to be deleted first, before the program can be deleted.
+          Şu anda, program silinmeden önce programın içindeki tüm sertifikalar
+          ve dönemler silinmelidir.
         </p>
 
         <Form action={`../delete`} method="POST" className="flex grow">
           <Button type="submit" variant="destructive">
-            <Trash2Icon /> Delete this program
+            <Trash2Icon /> Bu programı sil
           </Button>
         </Form>
       </section>

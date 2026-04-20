@@ -328,9 +328,9 @@ export async function sendPasswordResetLink(user: User) {
 		await sendEmail({
 			from: `${org.senderName ?? "Please configure in organisation settings"} <${org.senderEmail ?? "email-not-configured@example.com"}>`,
 			to: user.email,
-			subject: `Reset your password`,
-			text: `Dear ${user.firstName} ${user.lastName},\n\nTo reset your password for ${org.name} Certificates, please click on the following link:\n${resetUrl}\n\nIf you haven't requested this password reset, please ignore or report this email.\n\nThank you!`,
-			html: `<p>Dear ${user.firstName} ${user.lastName},</p><p>To reset your password for ${org.name} Certificates, please click on the following link:<br /><a href="${resetUrl}">${resetUrl}</a></p><p>If you haven't requested this password reset, please ignore or report this email.</p><p>Thank you!</p>`,
+			subject: `Parolanı sıfırla`,
+			text: `Sevgili ${user.firstName} ${user.lastName},\n\n${org.name} Sertifikaları için parolanı sıfırlamak için lütfen aşağıdaki bağlantıya tıkla:\n${resetUrl}\n\nBu parola sıfırlama talebini sen yapmadıysan lütfen bu e-postayı yok say veya bildir.\n\nTeşekkürler!`,
+			html: `<p>Sevgili ${user.firstName} ${user.lastName},</p><p>${org.name} Sertifikaları için parolanı sıfırlamak için lütfen aşağıdaki bağlantıya tıkla:<br /><a href="${resetUrl}">${resetUrl}</a></p><p>Bu parola sıfırlama talebini sen yapmadıysan lütfen bu e-postayı yok say veya bildir.</p><p>Teşekkürler!</p>`,
 		}).catch((/*error*/) => {
 			// @todo this should be a service-internal error, not user-facing
 			/* throw new Response(error.message, {

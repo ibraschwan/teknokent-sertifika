@@ -46,7 +46,7 @@ import { requireAdminWithProgram } from "~/lib/auth.server";
 import { prisma } from "~/lib/prisma.server";
 
 export function meta() {
-  return [{ title: "Import Participants" }];
+  return [{ title: "Katılımcıları İçe Aktar" }];
 }
 
 export async function loader({ request, params }: Route.LoaderArgs) {
@@ -196,14 +196,14 @@ export default function ImportBatchPage({
 
   const handleFinished = () =>
     toast({
-      title: "Import complete",
-      description: "All participants have been imported.",
+      title: "İçe aktarma tamamlandı",
+      description: "Tüm katılımcılar içe aktarıldı.",
       action: (
         <ToastAction
-          altText="You can navigate to the certificate list now."
+          altText="Artık sertifika listesine gidebilirsin."
           onClick={() => navigate(`../${params.batchId}/certificates`)}
         >
-          Show Certificates
+          Sertifikaları Göster
         </ToastAction>
       ),
     });
@@ -211,16 +211,16 @@ export default function ImportBatchPage({
   return (
     <div className="flex flex-col gap-4">
       <p className="text-sm text-muted-foreground">
-        To import multiple participants together, prepare the list of
-        participants for this batch as a CSV file with Google Spreadsheets,
-        Excel, Numbers or a similar tool. Please make sure to include the
-        required columns: <i>firstname, lastname, email</i>
+        Birden fazla katılımcıyı birlikte içe aktarmak için bu dönemin
+        katılımcı listesini Google E-Tablolar, Excel, Numbers veya benzeri bir
+        araçla CSV dosyası olarak hazırla. Zorunlu sütunları eklemeyi unutma:{" "}
+        <i>firstname, lastname, email</i>
         .&ensp;
         <a
           href="/assets/import-example.csv"
           className="inline-flex items-center text-foreground font-medium underline"
         >
-          Download CSV template
+          CSV şablonunu indir
           <ArrowDown className="w-4 h-4" />
         </a>
       </p>
@@ -229,11 +229,11 @@ export default function ImportBatchPage({
 
       <TaskRunner
         items={rows}
-        itemLabel="participants"
-        startLabel="Start Import"
-        pauseLabel="Pause Import"
-        confirmTitle="Start the import?"
-        confirmDescription="The participants from the CSV file will be added to the selected batch. If a provided email is already in this batch, the name and other information will be updated to prevent duplicates."
+        itemLabel="katılımcı"
+        startLabel="İçe Aktarmayı Başlat"
+        pauseLabel="İçe Aktarmayı Duraklat"
+        confirmTitle="İçe aktarmayı başlatmak ister misin?"
+        confirmDescription="CSV dosyasındaki katılımcılar seçilen döneme eklenecek. Verilen bir e-posta bu dönemde zaten varsa, yinelenmelerin önüne geçmek için ad ve diğer bilgiler güncellenecektir."
         onRunTask={handleImport}
         onReset={handleReset}
         onFinish={handleFinished}
@@ -243,11 +243,11 @@ export default function ImportBatchPage({
         <TableHeader>
           <TableRow>
             <TableHead></TableHead>
-            <TableHead>Firstname*</TableHead>
-            <TableHead>Lastname*</TableHead>
-            <TableHead className="font-medium">Email*</TableHead>
-            <TableHead>Team</TableHead>
-            <TableHead>Template</TableHead>
+            <TableHead>Ad*</TableHead>
+            <TableHead>Soyad*</TableHead>
+            <TableHead className="font-medium">E-posta*</TableHead>
+            <TableHead>Takım</TableHead>
+            <TableHead>Şablon</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -268,7 +268,7 @@ export default function ImportBatchPage({
                 {row.email || <Badge variant="destructive">email</Badge>}
               </TableCell>
               <TableCell>
-                {row.team || <Badge variant="outline">empty</Badge>}
+                {row.team || <Badge variant="outline">boş</Badge>}
               </TableCell>
               <TableCell>
                 <Select
@@ -279,7 +279,7 @@ export default function ImportBatchPage({
                   }}
                 >
                   <SelectTrigger className="w-[280px]">
-                    <SelectValue placeholder="Template" />
+                    <SelectValue placeholder="Şablon" />
                   </SelectTrigger>
                   <SelectContent>
                     {templates.map((template: Template) => (
@@ -298,21 +298,21 @@ export default function ImportBatchPage({
           {templates.length === 0 && (
             <TableRow>
               <TableCell colSpan={5} className="text-destructive">
-                No certificate templates configured yet. Please{" "}
+                Henüz sertifika şablonu tanımlanmamış. Önce{" "}
                 <Link
                   to={`/org/program/${params.programId}/templates`}
                   className="underline"
                 >
-                  add a template
-                </Link>{" "}
-                first.
+                  bir şablon ekle
+                </Link>
+                .
               </TableCell>
             </TableRow>
           )}
           {rows.length === 0 && (
             <TableRow>
               <TableCell colSpan={5}>
-                No participants to import. Please select a CSV file first.
+                İçe aktarılacak katılımcı yok. Önce bir CSV dosyası seç.
               </TableCell>
             </TableRow>
           )}
