@@ -1,5 +1,5 @@
 # Base Node.js image
-FROM node:24-alpine AS base
+FROM node:22-alpine AS base
 
 # Set for base and all layer that inherit from it
 ENV NODE_ENV=production
