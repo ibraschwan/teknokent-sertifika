@@ -1,11 +1,11 @@
 import type { Route } from "./+types/org.program.$programId.templates.$templateId.edit-layout";
 import type { ErrorResponse } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  Form,
   useParams,
   useNavigate,
   useNavigation,
+  useSubmit,
   useRouteError,
   isRouteErrorResponse,
 } from "react-router";
@@ -29,17 +29,23 @@ import {
   DialogFooter,
   DialogTitle,
 } from "~/components/ui/dialog";
-import { Label } from "~/components/ui/label";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 
-import { LayoutEditor } from "~/components/template-layout-editor";
-import { LayoutQRCodeEditor } from "~/components/template-qrcode-editor";
-import { VisualLayoutEditor } from "~/components/template-visual-editor";
 import { useToast } from "~/hooks/use-toast";
+import { useTemplateHistory } from "~/hooks/use-template-history";
+import { useTemplateDraft } from "~/hooks/use-template-draft";
+import { EditorShell } from "~/components/editor/editor-shell";
+import { EditorCanvas, type Selection } from "~/components/editor/editor-canvas";
+import { LayersPanel } from "~/components/editor/editor-layers-panel";
+import { PropertiesPanel } from "~/components/editor/editor-properties-panel";
+import { EditorStatusBar } from "~/components/editor/editor-status-bar";
+import { locales } from "~/lib/template-locales";
+import { A4_LANDSCAPE_PT, DEFAULT_QR } from "~/lib/editor-coords";
+import { generateRandomId } from "~/lib/utils";
 
 export function meta({ data }: Route.MetaArgs) {
   return [{ title: `Şablon ${data?.template?.name}` }];
@@ -84,6 +90,7 @@ export async function action({ request, params }: Route.ActionArgs) {
         layout: layoutJSON,
         qrcode: qrJSON,
         name: inputs.name,
+        locale: inputs.locale || undefined,
       },
     })
     .catch((error) => {
@@ -132,12 +139,123 @@ export default function TemplateEditorPage({
 }: Route.ComponentProps) {
   const { template, typefaces } = loaderData;
   const navigation = useNavigation();
-  const [layout, setLayout] = useState<PrismaJson.TextBlock[]>(template.layout);
-  const [qrcode, setQrcode] = useState(template.qrcode);
-  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
+  const submit = useSubmit();
+  const { toast } = useToast();
+  const page = A4_LANDSCAPE_PT;
+
+  const initialSnapshot = useMemo(
+    () => ({
+      layout: template.layout as PrismaJson.TextBlock[],
+      qrcode: (template.qrcode ?? DEFAULT_QR) as PrismaJson.QRCode,
+    }),
+    [template.id], // eslint-disable-line react-hooks/exhaustive-deps
+  );
+
+  const history = useTemplateHistory(initialSnapshot);
+  const draft = useTemplateDraft(template.id, initialSnapshot);
+
+  const [selection, setSelection] = useState<Selection>(null);
+  const [templateName, setTemplateName] = useState(template.name);
+  const [locale, setLocale] = useState(template.locale);
   const [copySuccess, setCopySuccess] = useState(false);
   const [pasteSuccess, setPasteSuccess] = useState(false);
-  const { toast } = useToast();
+
+  const layout = history.snapshot.layout;
+  const qrcode = history.snapshot.qrcode;
+
+  // Reset state if the server-loaded template identity changes
+  const prevTemplateId = useRef(template.id);
+  useEffect(() => {
+    if (prevTemplateId.current !== template.id) {
+      prevTemplateId.current = template.id;
+      history.reset(initialSnapshot);
+      draft.updateBaseline(initialSnapshot);
+      setTemplateName(template.name);
+      setLocale(template.locale);
+      setSelection(null);
+    }
+  }, [template.id, template.name, template.locale, initialSnapshot, history, draft]);
+
+  // Persist in-progress edits to localStorage
+  useEffect(() => {
+    draft.save(history.snapshot);
+  }, [history.snapshot, draft]);
+
+  // Helpers that dispatch into history
+  const setLayoutLive = (next: PrismaJson.TextBlock[]) =>
+    history.setLive({ layout: next, qrcode });
+  const setQrcodeLive = (next: PrismaJson.QRCode) =>
+    history.setLive({ layout, qrcode: next });
+  const commit = () => history.commitAs({ layout, qrcode });
+
+  const setLayoutCommit = (next: PrismaJson.TextBlock[]) =>
+    history.set({ layout: next, qrcode });
+  const setQrcodeCommit = (next: PrismaJson.QRCode) =>
+    history.set({ layout, qrcode: next });
+
+  // --- Operations ---
+
+  const addBlock = () => {
+    const id = generateRandomId();
+    const font = typefaces[0]?.name ?? "DejaVu Sans";
+    const newBlock: PrismaJson.TextBlock = {
+      id,
+      x: Math.round(page.width / 2 - 80),
+      y: Math.round(page.height / 2),
+      size: 16,
+      align: "left",
+      lines: [{ id: generateRandomId(), font, text: "Yeni metin" }],
+    };
+    setLayoutCommit([...layout, newBlock]);
+    setSelection({ kind: "block", id });
+  };
+
+  const addQr = () => {
+    if (qrcode) return;
+    const newQr: PrismaJson.QRCode = { ...DEFAULT_QR, show: true };
+    setQrcodeCommit(newQr);
+    setSelection({ kind: "qr" });
+  };
+
+  const deleteBlock = (id: string) => {
+    setLayoutCommit(layout.filter((b) => b.id !== id));
+    if (selection?.kind === "block" && selection.id === id) setSelection(null);
+  };
+
+  const deleteQr = () => {
+    // Hide rather than delete: the schema is singleton. We set show=false.
+    if (qrcode) setQrcodeCommit({ ...qrcode, show: false });
+    setSelection(null);
+  };
+
+  const reorderBlock = (from: number, to: number) => {
+    const next = [...layout];
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    setLayoutCommit(next);
+  };
+
+  const toggleQrVisibility = () => {
+    if (!qrcode) return;
+    setQrcodeCommit({ ...qrcode, show: !qrcode.show });
+  };
+
+  const inlineEditFirstSegmentText = (blockId: string, text: string) => {
+    setLayoutCommit(
+      layout.map((b) =>
+        b.id === blockId
+          ? {
+              ...b,
+              lines: b.lines.length
+                ? [{ ...b.lines[0], text }, ...b.lines.slice(1)]
+                : [{ id: generateRandomId(), font: typefaces[0]?.name ?? "", text }],
+            }
+          : b,
+      ),
+    );
+  };
+
+  // --- Clipboard ---
 
   const clipboardCopy = async () => {
     const fullLayout = {
@@ -145,119 +263,161 @@ export default function TemplateEditorPage({
       layout,
       qrcode,
     };
-    const clipText = JSON.stringify(fullLayout, null, 2);
-    await navigator.clipboard.writeText(clipText);
+    await navigator.clipboard.writeText(JSON.stringify(fullLayout, null, 2));
     setCopySuccess(true);
     setTimeout(() => setCopySuccess(false), 500);
   };
 
   const clipboardPaste = async () => {
-    let decoded;
-    let updatedLayout;
-    let updatedQR;
-    const clipText = await navigator.clipboard.readText();
     try {
-      decoded = JSON.parse(clipText);
-      updatedLayout = decoded.layout as PrismaJson.TextBlock[];
-      updatedQR = decoded.qrcode as PrismaJson.QRCode;
-    } catch (error) {
-      /* do nothing */
-      console.log("Invalid layout:", clipText, error);
+      const text = await navigator.clipboard.readText();
+      const decoded = JSON.parse(text);
+      if (
+        decoded?.mime === "x-teknokent/template-layout" &&
+        Array.isArray(decoded.layout) &&
+        decoded.qrcode
+      ) {
+        setLayoutCommit(decoded.layout);
+        setQrcodeCommit(decoded.qrcode);
+        setPasteSuccess(true);
+        setTimeout(() => setPasteSuccess(false), 500);
+        return;
+      }
+    } catch {
+      /* fall through */
     }
-    if (
-      decoded &&
-      decoded.mime === "x-teknokent/template-layout" &&
-      updatedLayout &&
-      updatedQR
-    ) {
-      setLayout(updatedLayout);
-      setQrcode(updatedQR);
-      setPasteSuccess(true);
-      setTimeout(() => setPasteSuccess(false), 500);
-    } else {
-      toast({
-        title: "🔴 Yerleşim yapıştırılamadı",
-        description:
-          "Panodan yerleşimi yapıştırmaya çalışırken geçerli bir yerleşim tanımı bulunamadı.",
-      });
-    }
+    toast({
+      title: "🔴 Yerleşim yapıştırılamadı",
+      description:
+        "Panodan yerleşimi yapıştırmaya çalışırken geçerli bir yerleşim tanımı bulunamadı.",
+    });
   };
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLayout(template.layout);
-  }, [template.id, template.layout]);
+  // --- Save ---
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setQrcode(template.qrcode);
-  }, [template.id, template.qrcode]);
+  const save = () => {
+    const fd = new FormData();
+    fd.append("layout", JSON.stringify(layout));
+    fd.append("qrcode", JSON.stringify(qrcode));
+    fd.append("name", templateName);
+    fd.append("locale", locale);
+    submit(fd, { method: "POST" });
+    draft.clear();
+  };
+
+  const saving = navigation.state !== "idle";
+
+  // --- Draft restore banner ---
+  const hasDraft = !!draft.draft;
+  const restoreDraft = () => {
+    if (!draft.draft) return;
+    history.reset(draft.draft.snapshot);
+    draft.clear();
+  };
 
   return (
-    <div className="pt-2 grid grid-cols-2 gap-4 items-start">
-      <div className="flex flex-col gap-2 pb-8">
-        <div className="flex h-10 items-center gap-1.5">
-          <Label>Şablon Yerleşimi</Label>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" onClick={clipboardCopy}>
-                {copySuccess ? <ClipboardCheck /> : <ClipboardCopy />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">Yerleşimi Kopyala</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" onClick={clipboardPaste}>
-                {pasteSuccess ? <ClipboardCheck /> : <ClipboardPaste />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">Yerleşimi Yapıştır</TooltipContent>
-          </Tooltip>
-          <div className="grow" />
-          <Form key={template.id} method="POST">
-            <input type="hidden" name="layout" value={JSON.stringify(layout)} />
-            <input type="hidden" name="qrcode" value={JSON.stringify(qrcode)} />
-            <Button type="submit" disabled={navigation.state !== "idle"}>
-              Kaydet ve Önizle
-            </Button>
-          </Form>
+    <>
+      {hasDraft && (
+        <div className="flex items-center gap-3 px-4 py-2 mb-3 bg-amber-100 border border-amber-300 rounded-md text-sm">
+          <span className="flex-1">
+            Kaydedilmemiş bir taslak bulundu. Geri yüklemek ister misin?
+          </span>
+          <Button size="sm" variant="outline" onClick={restoreDraft}>
+            Geri yükle
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => draft.clear()}
+          >
+            At
+          </Button>
         </div>
+      )}
 
-        {qrcode && (
-          <LayoutQRCodeEditor
-            key={`qrcode${template.id}`}
+      <EditorShell
+        header={
+          <>
+            <div className="font-semibold truncate">{templateName}</div>
+            <div className="grow" />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={clipboardCopy}>
+                  {copySuccess ? <ClipboardCheck className="size-4" /> : <ClipboardCopy className="size-4" />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Yerleşimi kopyala</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={clipboardPaste}>
+                  {pasteSuccess ? <ClipboardCheck className="size-4" /> : <ClipboardPaste className="size-4" />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">Yerleşimi yapıştır</TooltipContent>
+            </Tooltip>
+            <Button onClick={save} disabled={saving}>
+              {saving ? "Kaydediliyor…" : "Kaydet ve Önizle"}
+            </Button>
+          </>
+        }
+        left={
+          <LayersPanel
+            layout={layout}
             qrcode={qrcode}
-            onChange={setQrcode}
+            selection={selection}
+            onSelect={setSelection}
+            onAddBlock={addBlock}
+            onAddQr={addQr}
+            onDeleteBlock={deleteBlock}
+            onToggleQrVisibility={toggleQrVisibility}
+            onReorder={reorderBlock}
           />
-        )}
-
-        <LayoutEditor
-          key={`layout${template.id}`}
-          layout={layout}
-          fonts={typefaces}
-          onChange={(updatedLayout: PrismaJson.TextBlock[]) =>
-            setLayout(updatedLayout)
-          }
-        />
-      </div>
-      <div className="flex flex-col gap-2 sticky top-4">
-        <Label className="flex grow h-10 justify-center items-center">
-          Şablon Önizlemesi
-        </Label>
-
-        <VisualLayoutEditor
-          layout={layout}
-          qrcode={qrcode}
-          onLayoutChange={setLayout}
-          onQrcodeChange={setQrcode}
-          selectedBlockId={selectedBlockId}
-          onSelectBlock={setSelectedBlockId}
-          previewUrl={`preview.png?t=${template.updatedAt}`}
-          previewKey={String(template.updatedAt)}
-        />
-      </div>
-    </div>
+        }
+        canvas={
+          <EditorCanvas
+            layout={layout}
+            qrcode={qrcode}
+            previewUrl={`preview.png?t=${template.updatedAt}`}
+            previewKey={String(template.updatedAt)}
+            selection={selection}
+            onSelect={setSelection}
+            onLayoutLive={setLayoutLive}
+            onQrcodeLive={setQrcodeLive}
+            onCommit={commit}
+            onInlineEditText={inlineEditFirstSegmentText}
+          />
+        }
+        right={
+          <PropertiesPanel
+            selection={selection}
+            layout={layout}
+            qrcode={qrcode}
+            typefaces={typefaces}
+            onLayoutChange={setLayoutCommit}
+            onQrcodeChange={setQrcodeCommit}
+            onDeleteBlock={deleteBlock}
+            onDeleteQr={deleteQr}
+            templateName={templateName}
+            onTemplateNameChange={setTemplateName}
+            locale={locale}
+            onLocaleChange={setLocale}
+            locales={locales}
+          />
+        }
+        footer={
+          <EditorStatusBar
+            selection={selection}
+            layout={layout}
+            qrcode={qrcode}
+            canUndo={history.canUndo}
+            canRedo={history.canRedo}
+            onUndo={history.undo}
+            onRedo={history.redo}
+          />
+        }
+      />
+    </>
   );
 }
 
