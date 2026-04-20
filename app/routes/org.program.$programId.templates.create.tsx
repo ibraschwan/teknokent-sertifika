@@ -2,7 +2,7 @@ import type { Route } from "./+types/org.program.$programId.templates.create";
 import type { Template } from "~/generated/prisma/client";
 import { useEffect, useState } from "react";
 
-import { Form, isRouteErrorResponse, redirect, useNavigate, useRouteError, type ErrorResponse } from "react-router";
+import { Form, isRouteErrorResponse, redirect, useNavigate, useParams, useRouteError, type ErrorResponse } from "react-router";
 import { type FileUpload, parseFormData } from "@mjackson/form-data-parser";
 
 import { Button } from "~/components/ui/button";
@@ -85,7 +85,7 @@ export async function action({ request, params }: Route.ActionArgs) {
   if (!templatePDF) {
     throw new Response(null, {
       status: 400,
-      statusText: "Missing uploaded PDF file",
+      statusText: "Yüklenen PDF dosyası bulunamadı",
     });
   }
 
@@ -113,13 +113,14 @@ export async function action({ request, params }: Route.ActionArgs) {
 
   throw new Response(null, {
     status: 500,
-    statusText: "Unkown error when creating new template",
+    statusText: "Yeni şablon oluşturulurken bilinmeyen bir hata oluştu",
   });
 }
 
 export default function CreateTemplateDialog() {
   const [templateName, setTemplateName] = useState("");
   const navigate = useNavigate();
+  const params = useParams();
   const [open, setOpen] = useState(true);
 
   useEffect(() => {
@@ -141,55 +142,76 @@ export default function CreateTemplateDialog() {
         if (!open) navigate(-1);
       }}
     >
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[480px]">
+        <DialogHeader>
+          <DialogTitle>Şablon ekle</DialogTitle>
+          <DialogDescription>
+            Kendi PDF&apos;inizi yükleyin veya tarayıcıda boş bir şablon
+            oluşturun. Sonraki adımda metin ve QR kodu yerleşimini
+            düzenleyebilirsiniz.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="my-2 rounded-md border bg-muted/30 p-3 text-sm">
+          PDF&apos;iniz yok mu? {" "}
+          <Button
+            type="button"
+            variant="link"
+            className="h-auto p-0 align-baseline"
+            onClick={() =>
+              navigate(`/org/program/${params.programId}/templates/create-blank`)
+            }
+          >
+            Boş şablonla başla →
+          </Button>
+        </div>
         <Form method="POST" encType="multipart/form-data">
-          <DialogHeader>
-            <DialogTitle>Add template</DialogTitle>
-            <DialogDescription>
-              Upload a new certificate template for this program, then configure
-              the layout options in the next step.
-            </DialogDescription>
-          </DialogHeader>
           <div className="grid gap-4 py-4">
-            <Label htmlFor="pdf">Select a PDF file</Label>
-            <Input
-              id="pdf"
-              name="pdf"
-              type="file"
-              accept="application/pdf"
-              onChange={(e) => {
-                if (e.target.files && e.target.files[0]) {
-                  let filename = e.target.files[0].name;
-                  if (filename.lastIndexOf(".") > 0) {
-                    filename = filename.substring(0, filename.lastIndexOf("."));
+            <div className="grid gap-2">
+              <Label htmlFor="pdf">PDF dosyası seç</Label>
+              <Input
+                id="pdf"
+                name="pdf"
+                type="file"
+                accept="application/pdf"
+                required
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    let filename = e.target.files[0].name;
+                    if (filename.lastIndexOf(".") > 0) {
+                      filename = filename.substring(0, filename.lastIndexOf("."));
+                    }
+                    setTemplateName(filename);
                   }
-                  setTemplateName(filename);
-                }
-              }}
-            />
-            <Label htmlFor="name">Template name</Label>
-            <Input
-              id="name"
-              name="name"
-              value={templateName}
-              onChange={(e) => setTemplateName(e.target.value)}
-            />
-            <Label htmlFor="locale">Date format</Label>
-            <Select name="locale" defaultValue="tr-TR">
-              <SelectTrigger>
-                <SelectValue placeholder="Select a date format" />
-              </SelectTrigger>
-              <SelectContent>
-                {locales.map((locale) => (
-                  <SelectItem key={locale.code} value={locale.code}>
-                    {locale.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                }}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="name">Şablon adı</Label>
+              <Input
+                id="name"
+                name="name"
+                value={templateName}
+                onChange={(e) => setTemplateName(e.target.value)}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="locale">Tarih biçimi</Label>
+              <Select name="locale" defaultValue="tr-TR">
+                <SelectTrigger>
+                  <SelectValue placeholder="Tarih biçimi seç" />
+                </SelectTrigger>
+                <SelectContent>
+                  {locales.map((locale) => (
+                    <SelectItem key={locale.code} value={locale.code}>
+                      {locale.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Upload PDF</Button>
+            <Button type="submit">PDF&apos;i yükle</Button>
           </DialogFooter>
         </Form>
       </DialogContent>

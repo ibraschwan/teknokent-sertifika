@@ -531,6 +531,76 @@ export async function saveTemplateUpload(
   return lazyOpenFile(filepath);
 }
 
+export type BlankTemplateStyle = "plain" | "bordered" | "ribbon";
+export type BlankTemplateOrientation = "landscape" | "portrait";
+
+export async function generateBlankTemplatePDF(
+  template: Template,
+  style: BlankTemplateStyle = "bordered",
+  orientation: BlankTemplateOrientation = "landscape",
+) {
+  const folderCreated = await ensureFolderExists(templateDir);
+  if (!folderCreated) {
+    throw new Error("Could not create templates storage folder");
+  }
+
+  // A4 in points: 595.28 × 841.89
+  const [width, height] =
+    orientation === "landscape" ? [841.89, 595.28] : [595.28, 841.89];
+
+  const pdf = await PDFDocument.create();
+  const page = pdf.addPage([width, height]);
+
+  // White page by default (PDFs are white already)
+
+  if (style === "bordered") {
+    // ODTÜ Teknokent primary blue (matches the logo)
+    const borderColor = rgb(0.0, 0.298, 0.643); // #004CA4-ish
+    const outerMargin = 24;
+    const innerMargin = 32;
+
+    page.drawRectangle({
+      x: outerMargin,
+      y: outerMargin,
+      width: width - outerMargin * 2,
+      height: height - outerMargin * 2,
+      borderColor,
+      borderWidth: 3,
+    });
+    page.drawRectangle({
+      x: innerMargin,
+      y: innerMargin,
+      width: width - innerMargin * 2,
+      height: height - innerMargin * 2,
+      borderColor,
+      borderWidth: 1,
+    });
+  } else if (style === "ribbon") {
+    const accent = rgb(0.0, 0.298, 0.643);
+    const ribbonHeight = 60;
+    page.drawRectangle({
+      x: 0,
+      y: height - ribbonHeight,
+      width,
+      height: ribbonHeight,
+      color: accent,
+    });
+    page.drawRectangle({
+      x: 0,
+      y: 0,
+      width,
+      height: 8,
+      color: accent,
+    });
+  }
+  // "plain" style: no decorations, fully blank page
+
+  const pdfBytes = await pdf.save();
+  const filepath = `${templateDir}/${template.id}.pdf`;
+  await writeFile(filepath, pdfBytes);
+  return filepath;
+}
+
 export async function duplicateTemplate(
   existingTpl: Template,
   duplicatedTpl: Template,
