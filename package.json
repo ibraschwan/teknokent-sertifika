@@ -53,7 +53,7 @@
     "dotenv": "^17.2.3",
     "esbuild": "^0.27.1",
     "isbot": "^5.1.32",
-    "lucide-react": "^0.561.0",
+    "lucide-react": "^1.8.0",
     "markdown-to-jsx": "^9.3.5",
     "papaparse": "^5.5.3",
     "pdf-lib": "^1.17.1",
