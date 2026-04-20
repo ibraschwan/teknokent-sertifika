@@ -124,7 +124,7 @@ export function SidebarAdmin({
                       <LayoutGrid className="size-4" />
                     </div>
                     <div className="font-medium text-muted-foreground">
-                      Show all programs
+                      Tüm programları göster
                     </div>
                   </NavLink>
                 </DropdownMenuItem>
@@ -134,13 +134,13 @@ export function SidebarAdmin({
                       <Plus className="size-4" />
                     </div>
                     <div className="font-medium text-muted-foreground">
-                      Add program
+                      Program ekle
                     </div>
                   </NavLink>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuLabel className="text-xs text-muted-foreground">
-                  Open another program
+                  Başka bir programı aç
                 </DropdownMenuLabel>
                 {programs.map((program) => (
                   <DropdownMenuItem
@@ -177,35 +177,35 @@ export function SidebarAdmin({
             <SidebarGroup>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="Program Managers" asChild>
+                  <SidebarMenuButton tooltip="Program Yöneticileri" asChild>
                     <NavLink
                       to={`/org/program/${activeProgram?.id}/user`}
                       className="aria-[current]:bg-sidebar-accent aria-[current]:font-bold"
                     >
                       <UsersIcon />
-                      <span>Program Managers</span>
+                      <span>Program Yöneticileri</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="Program Settings" asChild>
+                  <SidebarMenuButton tooltip="Program Ayarları" asChild>
                     <NavLink
                       to={`/org/program/${activeProgram?.id}/settings`}
                       className="aria-[current]:bg-sidebar-accent aria-[current]:font-bold"
                     >
                       <Settings />
-                      <span>Settings</span>
+                      <span>Ayarlar</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="Social Media" asChild>
+                  <SidebarMenuButton tooltip="Sosyal Medya" asChild>
                     <NavLink
                       to={`/org/program/${activeProgram?.id}/social`}
                       className="aria-[current]:bg-sidebar-accent aria-[current]:font-bold"
                     >
                       <Share2 />
-                      <span>Social Media</span>
+                      <span>Sosyal Medya</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -213,10 +213,10 @@ export function SidebarAdmin({
             </SidebarGroup>
 
             <SidebarGroup className="grow">
-              <SidebarGroupLabel>Certificates</SidebarGroupLabel>
+              <SidebarGroupLabel>Sertifikalar</SidebarGroupLabel>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="Batches and Certificates" asChild>
+                  <SidebarMenuButton tooltip="Dönemler ve Sertifikalar" asChild>
                     <NavLink
                       to={`/org/program/${activeProgram?.id}/batch/${
                         activeBatchId ? activeBatchId + "/certificates" : ""
@@ -224,7 +224,7 @@ export function SidebarAdmin({
                       className="aria-[current]:bg-sidebar-accent aria-[current]:font-bold"
                     >
                       <FileBadge />
-                      <span>Batches</span>
+                      <span>Dönemler</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -244,13 +244,13 @@ export function SidebarAdmin({
                   </SidebarMenuButton>
                 </SidebarMenuItem>*/}
                 <SidebarMenuItem>
-                  <SidebarMenuButton tooltip="PDF Templates" asChild>
+                  <SidebarMenuButton tooltip="PDF Şablonları" asChild>
                     <NavLink
                       to={`/org/program/${activeProgram?.id}/templates/`}
                       className="aria-[current]:bg-sidebar-accent aria-[current]:font-bold"
                     >
                       <FilePen className="w-6 h-6" size={24} />
-                      <span>Templates</span>
+                      <span>Şablonlar</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -276,35 +276,35 @@ export function SidebarAdmin({
                 <SidebarGroupLabel>{org.name}</SidebarGroupLabel>
                 <SidebarMenu>
                   <SidebarMenuItem>
-                    <SidebarMenuButton tooltip="Organisation Settings" asChild>
+                    <SidebarMenuButton tooltip="Kurum Ayarları" asChild>
                       <NavLink
                         to={`/org/settings`}
                         className="aria-[current]:bg-sidebar-accent aria-[current]:font-bold"
                       >
                         <Home />
-                        <span>Organisation</span>
+                        <span>Kurum</span>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <SidebarMenuButton tooltip="User" asChild>
+                    <SidebarMenuButton tooltip="Kullanıcılar" asChild>
                       <NavLink
                         to={`/org/user`}
                         className="aria-[current]:bg-sidebar-accent aria-[current]:font-bold"
                       >
                         <UsersIcon />
-                        <span>User</span>
+                        <span>Kullanıcılar</span>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <SidebarMenuButton tooltip="Typefaces" asChild>
+                    <SidebarMenuButton tooltip="Yazı Tipleri" asChild>
                       <NavLink
                         to={`/org/typeface`}
                         className="aria-[current]:bg-sidebar-accent aria-[current]:font-bold"
                       >
                         <BookType />
-                        <span>Typefaces</span>
+                        <span>Yazı Tipleri</span>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -322,7 +322,7 @@ export function SidebarAdmin({
                 <SidebarMenuButton
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                  tooltip="Account"
+                  tooltip="Hesap"
                 >
                   <Avatar className="h-8 w-8 rounded">
                     <AvatarImage
@@ -372,13 +372,13 @@ export function SidebarAdmin({
                   <DropdownMenuItem asChild>
                     <Link to="/">
                       <BadgeCheck className="ml-0.5 mr-3.5 w-5 h-5" />
-                      My Certificates
+                      Sertifikalarım
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link to="/user/photo" state={{ fromPath: pathname }}>
                       <SquareUser className="ml-0.5 mr-3.5 w-5 h-5" />
-                      Account Settings
+                      Hesap Ayarları
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
@@ -391,7 +391,7 @@ export function SidebarAdmin({
                   >
                     <button type="submit" className="flex grow">
                       <LogOut className="ml-0.5 mr-3.5 w-5 h-5" />
-                      Log out
+                      Çıkış Yap
                     </button>
                   </form>
                 </DropdownMenuItem>

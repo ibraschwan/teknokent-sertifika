@@ -12,7 +12,7 @@ import { Button } from "~/components/ui/button";
 import { ImageUp, Trash2Icon } from "lucide-react";
 
 export function meta() {
-  return [{ title: "Edit Organisation" }];
+  return [{ title: "Kurumu Düzenle" }];
 }
 
 const allowedUpdateFields = [
@@ -74,16 +74,16 @@ export default function OrgSettings({ loaderData }: Route.ComponentProps) {
   return (
     <div className="grid gap-8 py-4 max-w-[625px]">
       <section className="flex flex-col gap-2">
-        <Label htmlFor="name">Name of your organisation</Label>
+        <Label htmlFor="name">Kurumunun adı</Label>
         <FormUpdate key={`name-${org?.updatedAt}`}>
           <Input id="name" name="name" defaultValue={org.name} />
         </FormUpdate>
       </section>
 
       <section className="flex flex-col gap-2">
-        <h2>Legal</h2>
+        <h2>Yasal</h2>
         <Label htmlFor="imprintUrl" className="mt-2">
-          Imprint URL
+          Künye URL'si
         </Label>
         <FormUpdate key={`imprint-${org?.updatedAt}`}>
           <Input
@@ -95,7 +95,7 @@ export default function OrgSettings({ loaderData }: Route.ComponentProps) {
         </FormUpdate>
 
         <Label htmlFor="privacyUrl" className="mt-2">
-          Privacy Policy URL
+          Gizlilik Politikası URL'si
         </Label>
         <FormUpdate key={`privacy-${org?.updatedAt}`}>
           <Input
@@ -108,10 +108,10 @@ export default function OrgSettings({ loaderData }: Route.ComponentProps) {
       </section>
 
       <section className="flex flex-col gap-2">
-        <h2>Notifications</h2>
+        <h2>Bildirimler</h2>
 
         <Label htmlFor="senderEmail" className="mt-2">
-          Sender Email
+          Gönderen E-posta
         </Label>
         <FormUpdate key={`email-${org?.updatedAt}`}>
           <Input
@@ -123,7 +123,7 @@ export default function OrgSettings({ loaderData }: Route.ComponentProps) {
         </FormUpdate>
 
         <Label htmlFor="senderName" className="mt-2">
-          Sender Name
+          Gönderen Adı
         </Label>
         <FormUpdate key={`sender-${org?.updatedAt}`}>
           <Input
@@ -137,13 +137,14 @@ export default function OrgSettings({ loaderData }: Route.ComponentProps) {
       <section className="flex flex-col gap-2 pb-24">
         <h2>Logo</h2>
         <p className="text-sm text-muted-foreground max-w-[500px]">
-          Add the black logo mark of your organisation. If available, a compact
-          (square-ish) version of the logo works best. We will show the inverted logo when the user has dark mode enabled.
+          Kurumunun siyah logo işaretini ekle. Mevcutsa, logonun kompakt
+          (kareye yakın) bir sürümü en iyi sonucu verir. Kullanıcı koyu mod
+          kullandığında logoyu ters çevrilmiş olarak göstereceğiz.
         </p>
         <p className="text-sm text-muted-foreground max-w-[500px]">
-          This needs to be a scalable vector image (SVG) and the logo should be
-          placed in the center of a transparent canvas with no additional
-          padding around the edges.
+          Dosyanın ölçeklenebilir bir vektör görseli (SVG) olması ve logonun
+          kenarlarında ek boşluk bırakılmadan şeffaf bir tuvalin ortasına
+          yerleştirilmiş olması gerekir.
         </p>
         <div className="flex gap-4 mt-2">
           {/* @todo implement a preview -> save workflow for changing the logo */}
@@ -155,7 +156,7 @@ export default function OrgSettings({ loaderData }: Route.ComponentProps) {
                 role="presentation"
               />
             ) : (
-              "No Logo"
+              "Logo Yok"
             )}
           </div>
           <div className="border rounded-lg border-slate-600 aspect-square w-36 p-4 bg-slate-900 flex justify-center items-center">
@@ -168,7 +169,7 @@ export default function OrgSettings({ loaderData }: Route.ComponentProps) {
                 className="invert"
               />
             ) : (
-              "No Logo"
+              "Logo Yok"
             )}
           </div>
           <div className="flex flex-col gap-2 items-stretch">
@@ -192,13 +193,13 @@ export default function OrgSettings({ loaderData }: Route.ComponentProps) {
                 className="w-full"
               >
                 <ImageUp />
-                {org.logo ? "Replace" : "Upload"} logo
+                {org.logo ? "Logoyu değiştir" : "Logo yükle"}
               </Button>
             </fetcherIcon.Form>
             {org.logo && (
               <Form action={`logo-delete`} method="POST" className="flex grow">
                 <Button type="submit" variant="outline">
-                  <Trash2Icon /> Remove logo
+                  <Trash2Icon /> Logoyu kaldır
                 </Button>
               </Form>
             )}

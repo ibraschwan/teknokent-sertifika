@@ -33,14 +33,14 @@ export default function ForgotPasswordNextSteps({
 			<Card className="mx-auto w-full max-w-sm shadow-none border-none bg-transparent">
 				<CardHeader>
 					<CardTitle className="text-2xl text-center text-balance">
-						Please check your email inbox.
+						Lütfen e-posta kutunu kontrol et.
 					</CardTitle>
 				</CardHeader>
 
 				<CardContent className="grid gap-4 text-center">
-					If the email address you entered is registered here, you
-					will receive an email from us with a link to reset your
-					password.
+					Girdiğin e-posta adresi burada kayıtlıysa, parolanı
+					sıfırlaman için bir bağlantı içeren e-postayı
+					göndereceğiz.
 				</CardContent>
 			</Card>
 			<div className="grow flex flex-row justify-center items-end gap-4 pb-5 text-xs">
@@ -50,7 +50,7 @@ export default function ForgotPasswordNextSteps({
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						Imprint
+						Künye
 					</a>
 				)}
 				{org?.privacyUrl && (
@@ -59,7 +59,7 @@ export default function ForgotPasswordNextSteps({
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						Privacy
+						Gizlilik
 					</a>
 				)}
 			</div>

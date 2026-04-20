@@ -84,10 +84,10 @@ export default function UserSignUp({ actionData }: Route.ComponentProps) {
   return (
     <Card className="mx-auto w-full max-w-sm shadow-none border-none bg-transparent">
       <CardHeader>
-        <CardTitle className="text-2xl text-center">Register</CardTitle>
+        <CardTitle className="text-2xl text-center">Kayıt Ol</CardTitle>
         <CardDescription className="text-center text-balance">
-          Enter your name and email and choose a password to register an account
-          and access your certificates.
+          Bir hesap oluşturmak ve sertifikalarına erişmek için adını,
+          e-postanı ve bir parola gir.
         </CardDescription>
       </CardHeader>
 
@@ -103,35 +103,35 @@ export default function UserSignUp({ actionData }: Route.ComponentProps) {
           )}
           <FormField
             {...getInputProps(fields.email, { type: "email" })}
-            label="Email"
+            label="E-posta"
             error={fields.email.errors?.join(", ")}
           />
           <FormField
             {...getInputProps(fields.password, { type: "password" })}
-            label="Password"
+            label="Parola"
             error={fields.password.errors?.join(", ")}
           />
-          <Label>Password strength</Label>
+          <Label>Parola gücü</Label>
           <PasswordIndicator passwordStrength={passwordStrength?.result} />
 
           <FormField
             {...getInputProps(fields.firstName, { type: "text" })}
-            label="First name"
+            label="Ad"
             error={fields.firstName.errors?.join(", ")}
           />
           <FormField
             {...getInputProps(fields.lastName, { type: "text" })}
-            label="Last name"
+            label="Soyad"
             error={fields.lastName.errors?.join(", ")}
           />
 
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting && <LoaderCircle className="mr-2 animate-spin" />}
-            Sign Up
+            Kayıt Ol
           </Button>
 
           <div className="mt-4 text-center text-sm">
-            Already got an account?
+            Zaten hesabın var mı?
             <Button type="button" variant="link" className="underline">
               <Link
                 to={"/user/sign/in" /* @todo add supportfor redirectTo */}
@@ -141,7 +141,7 @@ export default function UserSignUp({ actionData }: Route.ComponentProps) {
                     : undefined
                 }
               >
-                Sign In
+                Giriş Yap
               </Link>
             </Button>
           </div>

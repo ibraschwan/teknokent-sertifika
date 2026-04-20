@@ -38,7 +38,7 @@ export async function action({ request, params }: Route.ActionArgs) {
 		if (!invite) {
 			throw new Response(null, {
 				status: 400,
-				statusText: "Could not verify the code.",
+				statusText: "Kod doğrulanamadı.",
 			});
 		}
 
@@ -48,7 +48,7 @@ export async function action({ request, params }: Route.ActionArgs) {
 		const strength = assessPassword(inputs.password);
 		if (!strength.enough) {
 			return data(
-				{ error: "Please choose a stronger password." },
+				{ error: "Lütfen daha güçlü bir parola seç." },
 				{ status: 400 },
 			);
 		}
@@ -124,7 +124,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 		if (!invite) {
 			throw new Response(null, {
 				status: 404,
-				statusText: "Invite not found",
+				statusText: "Davet bulunamadı",
 			});
 		}
 
@@ -168,12 +168,11 @@ export default function AcceptInvitationPage({
 			<Card className="mx-auto max-w-sm">
 				<CardHeader>
 					<CardTitle className="text-2xl">
-						Accept invitation
+						Daveti Kabul Et
 					</CardTitle>
 					<CardDescription>
-						To accept the invitation and complete your registration,
-						please provide a password you would like to use for your
-						account.
+						Daveti kabul etmek ve kaydını tamamlamak için, lütfen
+						hesabın için kullanmak istediğin bir parola belirle.
 					</CardDescription>
 				</CardHeader>
 
@@ -184,9 +183,9 @@ export default function AcceptInvitationPage({
 								{formError}
 							</div>
 						)}
-						<Label>Email</Label>
+						<Label>E-posta</Label>
 						<Input disabled defaultValue={invite.email} />
-						<Label htmlFor="password">Password</Label>
+						<Label htmlFor="password">Parola</Label>
 						<Input
 							id="password"
 							name="password"
@@ -196,7 +195,7 @@ export default function AcceptInvitationPage({
 							}}
 						/>
 						<Label>
-							Password strength
+							Parola gücü
 							<PasswordIndicator
 								passwordStrength={passwordStrength?.result}
 							/>
@@ -208,15 +207,15 @@ export default function AcceptInvitationPage({
 							className="w-full"
 							disabled={!passwordStrengthEnough}
 						>
-							Accept Invite
+							Daveti Kabul Et
 						</Button>
 					</CardFooter>
 				</Form>
 			</Card>
 			<div className="text-xs grow flex flex-row items-end pb-12">
 				{org?.name}&emsp;&middot;&emsp;
-				<a href={org?.imprintUrl ?? ""}>Imprint</a>&emsp;&middot;&emsp;
-				<a href={org?.privacyUrl ?? ""}>Privacy</a>
+				<a href={org?.imprintUrl ?? ""}>Künye</a>&emsp;&middot;&emsp;
+				<a href={org?.privacyUrl ?? ""}>Gizlilik</a>
 			</div>
 		</Layout>
 	);

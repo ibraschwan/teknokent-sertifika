@@ -52,7 +52,7 @@ export async function action({ request, params }: Route.ActionArgs) {
 
 	if (!params.resetCode) {
 		return submission.reply({
-			formErrors: ["Missing reset code."],
+			formErrors: ["Sıfırlama kodu eksik."],
 		});
 	}
 
@@ -67,7 +67,7 @@ export async function action({ request, params }: Route.ActionArgs) {
 
 	if (!reset) {
 		return submission.reply({
-			formErrors: ["Password reset request not found."],
+			formErrors: ["Parola sıfırlama isteği bulunamadı."],
 		});
 	}
 
@@ -75,7 +75,7 @@ export async function action({ request, params }: Route.ActionArgs) {
 		// @todo this could be improved by redirecting to /user/forgot-password and showing the error message there
 		return submission.reply({
 			formErrors: [
-				"This reset link has expired. Please request a new link.",
+				"Bu sıfırlama bağlantısının süresi doldu. Lütfen yeni bir bağlantı iste.",
 			],
 		});
 	}
@@ -83,7 +83,7 @@ export async function action({ request, params }: Route.ActionArgs) {
 	await changePassword(reset.user, submission.value.password).catch(
 		(error) => {
 			console.error(error);
-			throwErrorResponse(error, "Could not save the new password.");
+			throwErrorResponse(error, "Yeni parola kaydedilemedi.");
 		},
 	);
 
@@ -101,13 +101,13 @@ export async function loader({ params }: Route.LoaderArgs) {
 	if (!params.userId) {
 		throw new Response(null, {
 			status: 400,
-			statusText: "Missing user id",
+			statusText: "Kullanıcı kimliği eksik",
 		});
 	}
 	if (!params.resetCode) {
 		throw new Response(null, {
 			status: 400,
-			statusText: "Missing reset code",
+			statusText: "Sıfırlama kodu eksik",
 		});
 	}
 
@@ -122,14 +122,14 @@ export async function loader({ params }: Route.LoaderArgs) {
 			console.error(error);
 			throwErrorResponse(
 				error,
-				"Could not find this password reset request",
+				"Bu parola sıfırlama isteği bulunamadı",
 			);
 		});
 
 	if (!reset) {
 		throw new Response(null, {
 			status: 404,
-			statusText: "Password reset request not found",
+			statusText: "Parola sıfırlama isteği bulunamadı",
 		});
 	}
 
@@ -138,7 +138,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 		throw new Response(null, {
 			status: 403,
 			statusText:
-				"This reset link has expired. Please request a new link.",
+				"Bu sıfırlama bağlantısının süresi doldu. Lütfen yeni bir bağlantı iste.",
 		});
 	}
 
@@ -188,11 +188,11 @@ export default function ResetPassword({
 			<Card className="mx-auto w-full max-w-sm shadow-none border-none bg-transparent">
 				<CardHeader>
 					<CardTitle className="text-2xl text-center">
-						Reset your password
+						Parolanı Sıfırla
 					</CardTitle>
 					<CardDescription className="text-center text-balance">
-						Please enter a new password you want to use to access
-						your account.
+						Hesabına erişmek için kullanmak istediğin yeni
+						parolayı gir.
 					</CardDescription>
 				</CardHeader>
 
@@ -215,11 +215,11 @@ export default function ResetPassword({
 							{...getInputProps(fields.password, {
 								type: "password",
 							})}
-							label="New password"
+							label="Yeni parola"
 							error={fields.password.errors?.join(", ")}
 						/>
 
-						<Label>Password strength</Label>
+						<Label>Parola gücü</Label>
 						<PasswordIndicator
 							passwordStrength={passwordStrength?.result}
 						/>
@@ -232,7 +232,7 @@ export default function ResetPassword({
 							{isSubmitting && (
 								<LoaderCircle className="mr-2 animate-spin" />
 							)}
-							Reset password
+							Parolayı Sıfırla
 						</Button>
 					</Form>
 				</CardContent>
@@ -244,7 +244,7 @@ export default function ResetPassword({
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						Imprint
+						Künye
 					</a>
 				)}
 				{org?.privacyUrl && (
@@ -253,7 +253,7 @@ export default function ResetPassword({
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						Privacy
+						Gizlilik
 					</a>
 				)}
 			</div>
@@ -275,7 +275,7 @@ export function ErrorBoundary() {
 		errorMessage = error;
 	} else {
 		console.error(error);
-		errorMessage = "Unknown error";
+		errorMessage = "Bilinmeyen hata";
 	}
 
 	return (
@@ -292,7 +292,7 @@ export function ErrorBoundary() {
 			<Card className="mx-auto max-w-sm shadow-none border-none bg-transparent">
 				<CardHeader>
 					<CardTitle className="text-2xl text-center">
-						Reset your password
+						Parolanı Sıfırla
 					</CardTitle>
 				</CardHeader>
 

@@ -16,7 +16,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 		if (!user) {
 			throw new Response(null, {
 				status: 400,
-				statusText: "Could not verify the code.",
+				statusText: "Kod doğrulanamadı.",
 			});
 		}
 
@@ -47,5 +47,5 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export default function VerifyUserPage() {
-	return <Layout type="modal">We did not expect you here.</Layout>;
+	return <Layout type="modal">Seni burada beklemiyorduk.</Layout>;
 }

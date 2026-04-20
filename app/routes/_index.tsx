@@ -25,12 +25,12 @@ import { getPublicOrg } from "~/lib/organisation.server";
 
 export function meta({ data }: Route.MetaArgs) {
   return [
-    { title: `${data?.org?.name} Certificates` },
+    { title: `${data?.org?.name} Sertifikalar` },
     {
       name: "description",
-      content: `All of your certificates from ${
-        data?.org?.name || "this organisation"
-      } in one place.`,
+      content: `${
+        data?.org?.name || "bu kurumdan"
+      } aldığın tüm sertifikalar tek bir yerde.`,
     },
   ];
 }
@@ -109,14 +109,14 @@ export default function Index({ loaderData }: Route.ComponentProps) {
           </header>
 
           <h1 className="text-5xl font-bold px-16">
-            {certificates.length === 0 ? "Hi" : "Congratulations"}{" "}
+            {certificates.length === 0 ? "Merhaba" : "Tebrikler"}{" "}
             {user?.firstName}!
           </h1>
 
           <p className="px-16 max-w-[70ch] text-balance">
             {certificates.length === 0
-              ? `It looks like you have not received any certificates from ${org.name} yet. If your certificate is missing, please talk to your program coordinator. If you have not joined any program yet, have a look at the programs offering certification below.`
-              : `Here are all your certificates from ${org.name}`}
+              ? `Görünüşe göre henüz ${org.name} tarafından verilmiş bir sertifikan yok. Sertifikan eksikse lütfen program koordinatörünle iletişime geç. Henüz bir programa katılmadıysan, aşağıda sertifika sunan programlara göz atabilirsin.`
+              : `${org.name} tarafından verilen tüm sertifikaların burada`}
           </p>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 px-16 py-12 gap-16">
@@ -136,9 +136,9 @@ export default function Index({ loaderData }: Route.ComponentProps) {
                 <img
                   className="w-full mb-4 drop-shadow-xl hover:drop-shadow-lg hover:opacity-85"
                   src={`/cert/${cert.uuid}/preview.png?t=${cert.updatedAt}`}
-                  alt={`Preview of your ${cert.batch.program.name} certificate`}
+                  alt={`${cert.batch.program.name} sertifikanın önizlemesi`}
                 />
-                <Button variant="outline">Open certificate</Button>
+                <Button variant="outline">Sertifikayı aç</Button>
               </Link>
             ))}
           </div>
@@ -147,11 +147,11 @@ export default function Index({ loaderData }: Route.ComponentProps) {
             <>
               <div>
                 <h3 className="text-lg font-bold px-16">
-                  More offers from {org.name}
+                  {org.name} tarafından sunulan diğer olanaklar
                 </h3>
                 <p className="text-sm   px-16">
-                  If you are interested in receiving more certifications, have a
-                  look at our other programs.
+                  Daha fazla sertifika almak istiyorsan, diğer programlarımıza
+                  göz atabilirsin.
                 </p>
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 p-16 pt-2 gap-8">

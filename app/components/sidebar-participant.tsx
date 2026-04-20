@@ -49,15 +49,15 @@ export function SidebarParticipant({
           <img src={`/logo/org.svg`} alt="Logo" className="size-6" />
 
           <span className="duration-200 transition-[width] w-30 overflow-hidden text-xl font-bold group-data-[collapsible=icon]:w-0">
-            Certificates
+            Sertifikalar
           </span>
-          <span className="sr-only">Certificates</span>
+          <span className="sr-only">Sertifikalar</span>
         </Link>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup className="duration-200 group-data-[collapsible=icon]:px-0">
-          <SidebarGroupLabel>Your Certificates</SidebarGroupLabel>
+          <SidebarGroupLabel>Sertifikaların</SidebarGroupLabel>
           <SidebarMenu>
             {certificates.map((cert) => (
               <SidebarMenuItem key={cert.id}>
@@ -92,13 +92,13 @@ export function SidebarParticipant({
         <SidebarMenu>
           {user.isAdmin && (
             <SidebarMenuItem>
-              <SidebarMenuButton tooltip="Administration" asChild>
+              <SidebarMenuButton tooltip="Yönetim" asChild>
                 <NavLink
                   to="/org/program"
                   className="aria-[current]:bg-sidebar-accent aria-[current]:font-bold"
                 >
                   <TowerControl />
-                  <span>Administration</span>
+                  <span>Yönetim</span>
                 </NavLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -158,7 +158,7 @@ export function SidebarParticipant({
                   <DropdownMenuItem asChild>
                     <Link to="/user/photo" state={{ fromPath: pathname }}>
                       <SquareUser className="ml-0.5 mr-3.5 w-5 h-5" />
-                      Account Settings
+                      Hesap Ayarları
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
@@ -171,7 +171,7 @@ export function SidebarParticipant({
                   >
                     <button type="submit" className="flex grow">
                       <LogOut className="ml-0.5 mr-3.5 w-5 h-5" />
-                      Log out
+                      Çıkış Yap
                     </button>
                   </form>
                 </DropdownMenuItem>

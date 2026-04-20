@@ -42,14 +42,14 @@ export async function action({ request }: Route.ActionArgs) {
 
 	if (!user) {
 		return submission.reply({
-			formErrors: ["This email is not registered as a user."],
+			formErrors: ["Bu e-posta bir kullanıcı olarak kayıtlı değil."],
 		});
 	}
 
 	if (!user.isVerified) {
 		return submission.reply({
 			fieldErrors: {
-				"verify-email": ["You still need to confirm your email address."],
+				"verify-email": ["E-posta adresini hâlâ onaylaman gerekiyor."],
 			},
 		});
 	} else {
@@ -106,10 +106,10 @@ export default function ForgotPassword({ actionData }: Route.ComponentProps) {
 			<Card className="mx-auto w-full max-w-sm shadow-none border-none bg-transparent">
 				<CardHeader>
 					<CardTitle className="text-2xl text-center">
-						Reset your password
+						Parolanı Sıfırla
 					</CardTitle>
 					<CardDescription className="text-center text-balance">
-						Enter your email address below to reset your password.
+						Parolanı sıfırlamak için aşağıya e-posta adresini gir.
 					</CardDescription>
 				</CardHeader>
 
@@ -126,13 +126,13 @@ export default function ForgotPassword({ actionData }: Route.ComponentProps) {
 
 						<FormField
 							{...getInputProps(fields.email, { type: "email" })}
-							label="Email"
+							label="E-posta"
 							error={fields.email.errors?.join(", ")}
 						/>
 
 						<Button type="submit" className="w-full" disabled={isSubmitting}>
 							{isSubmitting && <LoaderCircle className="mr-2 animate-spin" />}
-							Send reset link
+							Sıfırlama bağlantısı gönder
 						</Button>
 
 						{actionData?.error?.["verify-email"] && (
@@ -149,7 +149,7 @@ export default function ForgotPassword({ actionData }: Route.ComponentProps) {
 										value={actionData.initialValue?.email.toString()}
 									/>
 									<Button variant="outline" size="sm" type="submit">
-										Resend confirmation email
+										Onay e-postasını tekrar gönder
 									</Button>
 								</Form>
 							</div>
@@ -160,12 +160,12 @@ export default function ForgotPassword({ actionData }: Route.ComponentProps) {
 			<div className="grow flex flex-row justify-center items-end gap-4 pb-5 text-xs">
 				{org?.imprintUrl && (
 					<a href={org.imprintUrl} target="_blank" rel="noopener noreferrer">
-						Imprint
+						Künye
 					</a>
 				)}
 				{org?.privacyUrl && (
 					<a href={org.privacyUrl} target="_blank" rel="noopener noreferrer">
-						Privacy
+						Gizlilik
 					</a>
 				)}
 			</div>

@@ -74,10 +74,10 @@ export default function UserSignIn({
   return (
     <Card className="mx-auto w-full max-w-sm shadow-none border-none bg-transparent">
       <CardHeader>
-        <CardTitle className="text-2xl text-center">Sign In</CardTitle>
+        <CardTitle className="text-2xl text-center">Giriş Yap</CardTitle>
         <CardDescription className="text-center text-balance">
-          Enter your email and password below to log in to your account and
-          access your certificates.
+          Hesabına giriş yapmak ve sertifikalarına erişmek için aşağıya
+          e-postanı ve parolanı gir.
         </CardDescription>
       </CardHeader>
 
@@ -93,13 +93,13 @@ export default function UserSignIn({
           )}
           <FormField
             {...getInputProps(fields.email, { type: "email" })}
-            label="Email"
+            label="E-posta"
             error={fields.email.errors?.join(", ")}
             tabIndex={1}
           />
           <FormField
             {...getInputProps(fields.password, { type: "password" })}
-            label="Password"
+            label="Parola"
             error={fields.password.errors?.join(", ")}
             tabIndex={2}
             hint={
@@ -109,7 +109,7 @@ export default function UserSignIn({
                 tabIndex={4}
                 state={fields.email.value !== "" ? { email: fields.email.value } : undefined}
               >
-                Forgot your password?
+                Parolanı mı unuttun?
               </Link>
             }
           />
@@ -121,7 +121,7 @@ export default function UserSignIn({
             disabled={isSubmitting}
           >
             {isSubmitting && <LoaderCircle className="mr-2 animate-spin" />}
-            Sign In
+            Giriş Yap
           </Button>
 
           {actionData?.error?.["verify-email"] && (
@@ -138,14 +138,14 @@ export default function UserSignIn({
                   value={actionData.initialValue?.email.toString()}
                 />
                 <Button variant="outline" size="sm" type="submit">
-                  Resend email
+                  E-postayı tekrar gönder
                 </Button>
               </Form>
             </div>
           )}
 
           <div className="mt-4 text-center text-sm">
-            Don&rsquo;t have an account?
+            Hesabın yok mu?
             <Button
               type="button"
               variant="link"
@@ -157,7 +157,7 @@ export default function UserSignIn({
                 to={"/user/sign/up" /* @todo add supportfor redirectTo */}
                 state={fields.email.value !== "" ? { email: fields.email.value } : undefined}
               >
-                Sign Up
+                Kayıt Ol
               </Link>
             </Button>
           </div>
@@ -166,13 +166,13 @@ export default function UserSignIn({
           <>
             <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
               <span className="bg-muted text-muted-foreground relative z-10 px-2">
-                or
+                veya
               </span>
             </div>
             <Form action="/auth/google" method="GET">
               <Button variant="outline" className="w-full">
                 <GoogleIcon />
-                Continue with Google
+                Google ile devam et
               </Button>
             </Form>
           </>

@@ -22,7 +22,7 @@ export default function UserBalloons() {
             />
             &emsp;
             <span className="text-3xl font-bold tracking-wide">
-              Certificates
+              Sertifikalar
             </span>
           </div>
         </div>
@@ -34,14 +34,14 @@ export default function UserBalloons() {
       >
         {searchParams.get("verification") === "done" && (
           <div className="absolute top-10 flex mx-8 p-2 px-4 gap-2 rounded-xl bg-green-600 text-primary-foreground">
-            <CheckIcon /> Email successfully verified. You can now sign in.
+            <CheckIcon /> E-postanız başarıyla doğrulandı. Artık giriş yapabilirsin.
           </div>
         )}
 
         {searchParams.get("reset") === "done" && (
           <div className="absolute top-10 flex mx-8 p-2 px-4 gap-2 rounded-xl bg-green-600 text-primary-foreground">
-            <CheckIcon /> Your password has been changed. You can now sign in
-            with your new password.
+            <CheckIcon /> Parolan değiştirildi. Artık yeni parolanla giriş
+            yapabilirsin.
           </div>
         )}
 
@@ -60,12 +60,12 @@ export default function UserBalloons() {
         <div className="grow flex flex-row justify-center items-end gap-4 pb-5 text-xs">
           {org?.imprintUrl && (
             <a href={org.imprintUrl} target="_blank" rel="noopener noreferrer">
-              Imprint
+              Künye
             </a>
           )}
           {org?.privacyUrl && (
             <a href={org.privacyUrl} target="_blank" rel="noopener noreferrer">
-              Privacy
+              Gizlilik
             </a>
           )}
         </div>
