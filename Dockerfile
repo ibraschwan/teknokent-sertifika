@@ -1,13 +1,14 @@
-# Base Node.js image
-FROM node:22-alpine AS base
+# Base Node.js image (glibc — Alpine/musl builds trigger SIGILL on this VPS's CPU)
+FROM node:22-bookworm-slim AS base
 
 # Set for base and all layer that inherit from it
 ENV NODE_ENV=production
 
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y --no-install-recommends \
 	bash \
 	openssl \
-	;
+	ca-certificates \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Install all node_modules, including dev dependencies
 FROM base AS deps
