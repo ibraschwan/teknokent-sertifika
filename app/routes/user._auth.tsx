@@ -17,7 +17,7 @@ export default function UserBalloons() {
             <img
               src={`/logo/org.svg`}
               alt=""
-              className="size-12 invert"
+              className="size-12 brightness-0 invert"
               role="presentation"
             />
             &emsp;
@@ -51,7 +51,7 @@ export default function UserBalloons() {
             <img
               src={`/logo/org.svg`}
               alt=""
-              className="size-20 dark:invert"
+              className="size-20"
               role="presentation"
             />
           </>

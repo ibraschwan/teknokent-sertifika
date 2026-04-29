@@ -181,7 +181,7 @@ export default function ResetPassword({
 			<img
 				src={`/logo/org.svg`}
 				alt=""
-				className="size-20 dark:invert"
+				className="size-20"
 				role="presentation"
 			/>
 

@@ -166,7 +166,7 @@ export default function OrgSettings({ loaderData }: Route.ComponentProps) {
                 src={`/logo/org.svg?t=${org.logo.updatedAt}`}
                 alt=""
                 role="presentation"
-                className="invert"
+                className=""
               />
             ) : (
               "Logo Yok"
