@@ -43,7 +43,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-router/node": "^7.10.1",
     "@react-router/serve": "^7.10.1",
-    "@remix-run/fs": "^0.3.0",
+    "@remix-run/fs": "^0.4.2",
     "@remix-run/lazy-file": "^4.2.0",
     "archiver": "^7.0.1",
     "bcryptjs": "^3.0.3",
